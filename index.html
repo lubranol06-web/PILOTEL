@@ -321,28 +321,39 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">Numero WhatsApp per Briefing 07:30</label>
         <input type="text" id="input-phone" value="+39 349 1234567" placeholder="+39 ...">
 
-        <button class="btn" style="width:100%; margin-top:16px;" onclick="nextOnboardingStep(2)">Avanti: Connessione PMS & Privacy →</button>
+        <button class="btn" style="width:100%; margin-top:16px;" onclick="nextOnboardingStep(2)">Avanti: Connessione Partner & Privacy →</button>
       </div>
 
       <div class="card onboarding-step" id="step-2">
-        <span class="tag t-amb">Passo 2 di 2 · Integrazione PMS & GDPR</span>
-        <h2>Connessione Dati & Sicurezza</h2>
-        <p class="why">Collega il tuo PMS e verifica l'accettazione delle normative sulla privacy e conservazione dati.</p>
+        <span class="tag t-amb">Passo 2 di 2 · Integrazione Operatori & GDPR</span>
+        <h2>Connessione Sistemi & Partner</h2>
+        <p class="why">Collega i tuoi operatori di riferimento per ogni categoria o lascia il default di settore.</p>
         
-        <label style="font-size:0.8rem; font-weight:700; color:var(--brand);">Seleziona il tuo Gestionale (PMS)</label>
+        <label style="font-size:0.8rem; font-weight:700; color:var(--brand);">1. Booking & Camere (PMS / Channel Manager)</label>
         <select id="select-pms" onchange="updatePmsPreview()">
-          <option value="Octorate">Octorate PMS</option>
+          <option value="Octorate">Octorate PMS (Partner Default)</option>
           <option value="WuBook">WuBook</option>
           <option value="Cloudbeds">Cloudbeds</option>
           <option value="Mews">Mews</option>
-          <option value="Custom API">Altro PMS (API Diretta)</option>
+          <option value="">Nessuno (Assegna Partner Standard: Octorate)</option>
+        </select>
+
+        <label style="font-size:0.8rem; font-weight:700; color:var(--brand); display:block; margin-top:10px;">2. Check-in & Schedine PS (Alloggiati Web)</label>
+        <select id="select-checkin">
+          <option value="Vikey">Vikey (Partner Default)</option>
+          <option value="Kross.Booking">Kross.Booking</option>
+          <option value="">Nessuno (Assegna Partner Standard: Vikey)</option>
+        </select>
+
+        <label style="font-size:0.8rem; font-weight:700; color:var(--brand); display:block; margin-top:10px;">3. Reputazione & Recensioni (IA Maps)</label>
+        <select id="select-reviews">
+          <option value="TrustYou">TrustYou (Partner Default)</option>
+          <option value="ReviewPro">ReviewPro</option>
+          <option value="">Nessuno (Assegna Partner Standard: TrustYou)</option>
         </select>
         
-        <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">Token API / Chiave di Autenticazione</label>
-        <input type="text" id="input-api-key" value="pms_live_token_8891024x" placeholder="Inserisci token API...">
-        
         <div style="background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px; margin-top:12px; font-size:0.82rem; color:var(--mute);">
-          <b>Stato Connessione:</b> <span id="api-status-text" style="color:var(--ok);">✓ Token valido (Sincronizzazione camere attiva)</span>
+          <b>Stato Integrazione:</b> <span id="api-status-text" style="color:var(--ok);">✓ Operatori partner sincronizzati correttamente</span>
         </div>
 
         <div style="margin: 12px 0 4px; font-size:0.82rem;">
@@ -369,14 +380,14 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
           <div class="row"><span>Extra (Bar / Ristorante)</span><b>€1.090</b></div>
           <div class="row"><span>Arrivi / Partenze</span><b>6 / 5 in casa</b></div>
           <div class="row"><span>Meteo Localizzato</span><b>☀️ Sereno, 22°C</b></div>
-          <div class="time">07:30 ✓✓ (Inviato via WhatsApp)</div>
+          <div class="time" id="wa-time-status">07:30 ✓✓ (Inviato via WhatsApp)</div>
         </div>
 
         <div class="card">
-          <h2>Rilievi Operativi IA & PMS</h2>
+          <h2>Rilievi Operativi IA & Partner</h2>
           <ul style="margin:0; padding-left:18px; font-size:0.9rem; color:var(--mute);">
             <li id="pms-sync-note" style="margin-bottom:6px;">Sincronizzato in tempo reale con Octorate PMS. 6 arrivi previsti tra le 15:00 e le 18:00.</li>
-            <li>Scorte kit cortesia sotto soglia sicurezza (vedi sezione Magazzino).</li>
+            <li>Scorte kit cortesia sotto soglia sicurezza (Partner: HQ Food & Beverage).</li>
           </ul>
         </div>
         <button class="btn sec" style="width:100%; margin-top:2px;" onclick="switchTab('pricing')">Esamina Consigli Dynamic Pricing (2) →</button>
@@ -389,7 +400,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
           <h2>Weekend 17-18: alza le camere libere da €105 a €125</h2>
           <p class="why">Analisi dati PMS: occupazione già all'83% con 10 giorni d'anticipo rispetto all'anno scorso. Previsione meteo: sole pieno.</p>
           <div class="btns">
-            <button class="btn" onclick="resolveTip('tip-1', true)">Applica al PMS</button>
+            <button class="btn" onclick="resolveTip('tip-1', true)">Applica</button>
             <button class="btn sec" onclick="resolveTip('tip-1', false)">Ignora</button>
           </div>
         </div>
@@ -408,14 +419,14 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
       <!-- TAB 3: RECENSIONI AI -->
       <div id="screen-reviews" class="screen">
         <div class="card" id="rev-card-1">
-          <span class="tag t-amb">Google Maps · Da Approvare</span>
+          <span class="tag t-amb" id="review-partner-tag">TrustYou AI · Da Approvare</span>
           <div class="review-box">
             <div class="review-header"><span>Marco V. · 3 giorni fa</span><span class="stars">★★★☆☆</span></div>
             <div style="font-size:0.88rem; font-style:italic;">"Hotel carino e pulito, ma la colazione ha poca scelta di prodotti freschi e il Wi-Fi in camera 204 prendeva poco."</div>
           </div>
-          <div style="font-size:0.82rem; font-weight:700; color:var(--brand); margin-bottom:4px;">Bozza Risposta IA (Personalizzata per la tua struttura):</div>
+          <div style="font-size:0.82rem; font-weight:700; color:var(--brand); margin-bottom:4px;">Bozza Risposta IA (Gestita da operatore partner):</div>
           <div style="font-size:0.85rem; background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); color:var(--mute);">
-            " Gentile Marco, la ringraziamo per il feedback su Pilotel. Abbiamo già provveduto a potenziare il segnale Wi-Fi e rinnovare il buffet. La aspettiamo presto! "
+            " Gentile Marco, la ringraziamo per il feedback. Abbiamo già provveduto a potenziare il segnale Wi-Fi e rinnovare il buffet. La aspettiamo presto! "
           </div>
           <div class="btns">
             <button class="btn" onclick="approveReview('rev-card-1')">Approva e Pubblica</button>
@@ -427,7 +438,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
       <!-- TAB 4: CHECK-IN & PRIVACY GDPR -->
       <div id="screen-checkin" class="screen">
         <div class="card">
-          <span class="tag t-ok">Alloggiati Web & Schedine PS</span>
+          <span class="tag t-ok" id="checkin-partner-tag">Vikey Smart Check-in & Alloggiati Web</span>
           <h2>Stato Arrivi di Oggi (6 Ospiti)</h2>
           <p class="why">Link WhatsApp inviato. I dati vengono scansionati via OCR con consenso GDPR registrato.</p>
           <div class="row"><span>Rossi Mario (Camera 102)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
@@ -442,19 +453,19 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
           <p class="why">In conformità alla scelta effettuata in configurazione, i documenti d'identità temporanei vengono eliminati automaticamente dopo 48 ore.</p>
           <div class="row"><span>Consenso Marketing Registrato</span><b>68% degli ospiti</b></div>
           <div class="row" style="margin-bottom:10px;"><span>Registro Audit Log Accessi</span><b style="color:var(--ok)">Attivo e protetto</b></div>
-          <button class="btn sec" onclick="alert('Registro Audit Log: Token PMS autenticato con successo. Accesso amministratore registrato.')">Visualizza Log Accessi</button>
+          <button class="btn sec" onclick="alert('Registro Audit Log: Accesso amministratore registrato.')">Visualizza Log Accessi</button>
         </div>
       </div>
 
       <!-- TAB 5: MAGAZZINO & STAFF -->
       <div id="screen-ops" class="screen">
         <div class="card">
-          <span class="tag t-red">Scorta Critica</span>
+          <span class="tag t-red">Scorta Critica (Partner: HQ Food & Beverage)</span>
           <h2>Kit Cortesia e Cialde Caffè</h2>
-          <p class="why">Calcolato sull'occupazione sincronizzata del PMS nei prossimi 7 giorni.</p>
+          <p class="why">Calcolato sull'occupazione sincronizzata nei prossimi 7 giorni.</p>
           <div class="row"><span>Kit Cortesia Standard</span><b>Rimasti 18 pz (Min: 30)</b></div>
           <div class="row" style="margin-bottom:14px;"><span>Cialde Caffè Camera</span><b>Rimasti 24 pz (Min: 50)</b></div>
-          <button class="btn" id="order-btn" onclick="triggerOrder()">Genera Ordine Automatico Fornitore</button>
+          <button class="btn" id="order-btn" onclick="triggerOrder()">Genera Ordine Automatico al Fornitore</button>
         </div>
 
         <div class="card">
@@ -464,7 +475,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         </div>
 
         <div class="card">
-          <span class="tag t-amb">Manutenzione</span>
+          <span class="tag t-amb">Manutenzione (SuperStaff)</span>
           <h2>Climatizzatore camera 12 guasto</h2>
           <p class="why">Segnalato da Luca (reception). Non raffredda.</p>
           <button class="opt-btn rec" onclick="selectOpt(this)"><small>Azione IA Consigliata</small>Chiama il tecnico oggi e blocca la camera sul PMS</button>
@@ -483,7 +494,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
     </div>
   </main>
 
-  <!-- Navigation Bar (Hidden during onboarding) -->
+  <!-- Navigation Bar -->
   <nav class="tabbar" id="app-tabbar" role="tablist" style="display:none;">
     <button role="tab" aria-selected="true" onclick="switchTab('brief')">
       <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
@@ -510,7 +521,9 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
 
 <script>
 let globalHotelName = "Hotel Villa Rosa & Spa";
-let globalPmsName = "Octorate";
+let activePms = "Octorate";
+let activeCheckin = "Vikey";
+let activeReviews = "TrustYou";
 
 function nextOnboardingStep(stepNum) {
   document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
@@ -522,14 +535,24 @@ function nextOnboardingStep(stepNum) {
 }
 
 function updatePmsPreview() {
-  globalPmsName = document.getElementById('select-pms').value;
-  document.getElementById('api-status-text').textContent = `✓ Token ${globalPmsName} verificato (Sincronizzazione attiva)`;
+  const pmsVal = document.getElementById('select-pms').value;
+  const partnerName = pmsVal ? pmsVal : "Octorate (Partner Default)";
+  document.getElementById('api-status-text').textContent = `✓ Operatore ${partnerName} sincronizzato`;
 }
 
 function completeOnboarding() {
   const nameVal = document.getElementById('input-hotel-name').value.trim();
   if(nameVal) globalHotelName = nameVal;
-  globalPmsName = document.getElementById('select-pms').value;
+  
+  // Assegnazione operatori reali con fallback automatico sui partner predefiniti
+  let pmsInput = document.getElementById('select-pms').value;
+  activePms = pmsInput ? pmsInput : "Octorate (Partner Default)";
+
+  let checkinInput = document.getElementById('select-checkin').value;
+  activeCheckin = checkinInput ? checkinInput : "Vikey (Partner Default)";
+
+  let reviewsInput = document.getElementById('select-reviews').value;
+  activeReviews = reviewsInput ? reviewsInput : "TrustYou (Partner Default)";
   
   const gdprChecked = document.getElementById('check-gdpr').checked;
   if(!gdprChecked) {
@@ -538,8 +561,10 @@ function completeOnboarding() {
   }
   
   document.getElementById('header-hotel-badge').textContent = globalHotelName;
-  document.getElementById('wa-greeting').textContent = `☕ Buongiorno Direttore di ${globalHotelName}! Ecco il briefing sincronizzato via ${globalPmsName} PMS.`;
-  document.getElementById('pms-sync-note').textContent = `Sincronizzato in tempo reale con ${globalPmsName} PMS. 6 arrivi previsti tra le 15:00 e le 18:00.`;
+  document.getElementById('wa-greeting').textContent = `☕ Buongiorno Direttore di ${globalHotelName}! Ecco il briefing sincronizzato via ${activePms}.`;
+  document.getElementById('pms-sync-note').textContent = `Sincronizzato in tempo reale tramite ${activePms}. 6 arrivi previsti tra le 15:00 e le 18:00.`;
+  document.getElementById('review-partner-tag').textContent = `${activeReviews} AI · Da Approvare`;
+  document.getElementById('checkin-partner-tag').textContent = `${activeCheckin} Smart Check-in & Alloggiati Web`;
 
   document.getElementById('view-onboarding').classList.remove('active');
   document.getElementById('view-dashboard').classList.add('active');
@@ -570,12 +595,12 @@ function toggleTheme() {
 function resolveTip(cardId, accepted) {
   const card = document.getElementById(cardId);
   card.style.opacity = '0.6';
-  card.innerHTML = `<span class="tag t-ok">Aggiornato</span><h2>${accepted ? `Modifica inviata a ${globalPmsName} PMS ✓` : 'Consiglio ignorato'}</h2><p class="why">L'azione è stata registrata nel registro audit log.</p>`;
+  card.innerHTML = `<span class="tag t-ok">Aggiornato</span><h2>${accepted ? `Modifica inviata a ${activePms} ✓` : 'Consiglio ignorato'}</h2><p class="why">L'azione è stata registrata nel registro audit log.</p>`;
 }
 
 function approveReview(cardId) {
   const card = document.getElementById(cardId);
-  card.innerHTML = `<span class="tag t-ok">Pubblicata</span><h2>Risposta inviata su Google Maps ✓</h2><p class="why">La recensione per ${globalHotelName} è stata gestita con successo dall'IA.</p>`;
+  card.innerHTML = `<span class="tag t-ok">Pubblicata</span><h2>Risposta inviata su Google Maps via ${activeReviews} ✓</h2><p class="why">La recensione per ${globalHotelName} è stata gestita con successo dall'IA.</p>`;
 }
 
 function editReview(cardId) {
@@ -583,12 +608,12 @@ function editReview(cardId) {
 }
 
 function syncAlloggiati() {
-  alert(`Flusso telematico generato e inviato correttamente ad Alloggiati Web della Polizia di Stato per ${globalHotelName}! Consensi GDPR e cancellazione documenti a 48h registrati con successo.`);
+  alert(`Flusso telematico generato e inviato correttamente ad Alloggiati Web della Polizia di Stato tramite ${activeCheckin} per ${globalHotelName}! Consensi GDPR e cancellazione documenti a 48h registrati con successo.`);
 }
 
 function triggerOrder() {
   const btn = document.getElementById('order-btn');
-  btn.textContent = 'Ordine Inviato al Fornitore ✓';
+  btn.textContent = 'Ordine Inviato a HQ Food & Beverage ✓';
   btn.style.background = 'var(--ok)';
   btn.style.color = '#091314';
   btn.disabled = true;
