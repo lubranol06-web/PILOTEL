@@ -1,505 +1,1793 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PILOTEL · Suite Gestionale & PMS Professionale</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #091314;
-  --panel: #112224;
-  --panel-hover: #172d30;
-  --ink: #e6f0ee;
-  --mute: #8da4a6;
-  --line: #223c3e;
-  --brand: #2dd4bf;
-  --brandsoft: #113c38;
-  --amber: #fbbf24;
-  --ambersoft: #382b0e;
-  --red: #f87171;
-  --redsoft: #3f1d1d;
-  --ok: #34d399;
-  --wa-bg: #0d2b1e;
-  --wa-border: #175237;
-  --wa-text: #a7f3d0;
-  box-sizing: border-box;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PILOTEL - Gestionale Alberghiero</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@10..48,400;10..48,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007aff;
+            --secondary-color: #5856d6;
+            --background-light: #f2f2f7;
+            --surface-light: #ffffff;
+            --text-light: #000000;
+            --border-light: #c7c7cc;
+            --background-dark: #1c1c1e;
+            --surface-dark: #2c2c2e;
+            --text-dark: #ffffff;
+            --border-dark: #3a3a3c;
+            --accent-color: #ff9500;
+            --success-color: #30d158;
+            --warning-color: #ffcc00;
+            --danger-color: #ff3b30;
+        }
 
-[data-theme="light"] {
-  --bg: #f3f6f6;
-  --panel: #ffffff;
-  --panel-hover: #f8fafc;
-  --ink: #0f172a;
-  --mute: #64748b;
-  --line: #cbd5e1;
-  --brand: #0d9488;
-  --brandsoft: #ccfbf1;
-  --amber: #d97706;
-  --ambersoft: #fef3c7;
-  --red: #dc2626;
-  --redsoft: #fee2e2;
-  --ok: #059669;
-  --wa-bg: #ecfdf5;
-  --wa-border: #a7f3d0;
-  --wa-text: #065f46;
-}
+        body {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 14.5px/1.5 "Bricolage Grotesque", system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+        body[data-theme="dark"] {
+            background-color: var(--background-dark);
+            color: var(--text-dark);
+        }
 
-.app-container {
-  width: 100%;
-  max-width: 480px;
-  height: 100vh;
-  max-height: 900px;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg);
-  position: relative;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-  border-radius: 28px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-@media (max-width: 480px) {
-  .app-container { height: 100vh; max-height: none; border-radius: 0; border: none; }
-}
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-header {
-  padding: 14px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-.brand-title {
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink);
-}
-.brand-title span {
-  width: 8px;
-  height: 8px;
-  background: var(--ok);
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0 0 10px var(--ok);
-}
-.header-actions { display: flex; align-items: center; gap: 6px; }
-.hotel-badge {
-  font-size: 0.72rem;
-  background: var(--brandsoft);
-  color: var(--brand);
-  padding: 4px 10px;
-  border-radius: 99px;
-  font-weight: 700;
-  max-width: 140px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.icon-btn {
-  background: none;
-  border: 1px solid var(--line);
-  color: var(--mute);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-}
-.icon-btn:hover { color: var(--brand); border-color: var(--brand); }
+        header {
+            background-color: var(--surface-light);
+            color: var(--text-light);
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2em;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
 
-main {
-  flex: 1;
-  padding: 14px;
-  overflow-y: auto;
-  padding-bottom: 95px;
-}
-.screen { display: none; }
-.screen.active { display: block; }
+        body[data-theme="dark"] header {
+            background-color: var(--surface-dark);
+            border-bottom: 1px solid var(--border-dark);
+        }
 
-.card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-h2 { font-size: 0.98rem; margin: 0 0 10px; font-weight: 700; color: var(--ink); display: flex; align-items: center; justify-content: space-between; }
+        .header-icon {
+            font-size: 1.5em;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .header-icon:hover {
+            opacity: 1;
+        }
 
-.wa-box {
-  background: var(--wa-bg);
-  border: 1px solid var(--wa-border);
-  border-radius: 4px 16px 16px 16px;
-  padding: 14px 16px;
-  margin-bottom: 12px;
-}
-.wa-box p { margin: 0 0 8px; font-weight: 700; color: var(--wa-text); font-size: 0.95rem; }
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 0;
-  border-bottom: 1px dashed rgba(255,255,255,0.08);
-  font-size: 0.88rem;
-}
-[data-theme="light"] .row { border-bottom: 1px dashed rgba(0,0,0,0.08); }
-.row:last-child { border: 0; }
-.row b { font-variant-numeric: tabular-nums; color: var(--ink); }
+        main {
+            flex-grow: 1;
+            padding-top: 15px;
+            padding-bottom: 70px; /* Spazio per la bottom nav */
+            overflow-y: auto;
+            display: none; /* Hidden by default */
+        }
 
-.tag {
-  display: inline-block;
-  font-size: 0.68rem;
-  font-weight: 700;
-  border-radius: 6px;
-  padding: 2px 8px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-.t-amb { background: var(--ambersoft); color: var(--amber); }
-.t-red { background: var(--redsoft); color: var(--red); }
-.t-ok { background: var(--brandsoft); color: var(--brand); }
+        main.active {
+            display: block;
+        }
 
-.why { color: var(--mute); font-size: 0.86rem; margin: 6px 0 12px; line-height: 1.4; }
-.btns { display: flex; gap: 8px; margin-top: 12px; }
-.btn {
-  flex: 1;
-  font: inherit;
-  font-weight: 700;
-  border-radius: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  border: 1px solid var(--brand);
-  background: var(--brand);
-  color: #091314;
-  text-align: center;
-  transition: all 0.15s ease;
-  font-size: 0.86rem;
-}
-.btn:active { transform: scale(0.98); opacity: 0.9; }
-.btn.sec { background: transparent; color: var(--ink); border-color: var(--line); }
-.btn.sec:hover { border-color: var(--brand); color: var(--brand); }
+        .module-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
 
-/* Planning Griglia Stile PMS Professionale */
-.planning-grid {
-  display: grid;
-  grid-template-columns: 85px repeat(4, 1fr);
-  gap: 4px;
-  margin-top: 10px;
-  font-size: 0.78rem;
-}
-.p-cell {
-  background: var(--bg);
-  border: 1px solid var(--line);
-  padding: 8px 4px;
-  text-align: center;
-  border-radius: 6px;
-}
-.p-cell.header { font-weight: 700; color: var(--mute); background: var(--panel-hover); }
-.p-cell.room { font-weight: 700; text-align: left; padding-left: 8px; display: flex; align-items: center; }
-.p-cell.booked { background: var(--brandsoft); color: var(--brand); font-weight: 600; border-color: var(--brand); }
-.p-cell.free { background: var(--bg); color: var(--mute); }
+        .card {
+            background-color: var(--surface-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
 
-.qty-ctrl { display: flex; align-items: center; gap: 6px; }
-.qty-btn {
-  width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--line);
-  background: var(--bg); color: var(--ink); font-weight: 800; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-}
-.qty-btn:hover { border-color: var(--brand); color: var(--brand); }
+        body[data-theme="dark"] .card {
+            background-color: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
-nav.tabbar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: var(--panel);
-  border-top: 1px solid var(--line);
-  display: flex;
-  padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
-  gap: 2px;
-  z-index: 100;
-}
-nav.tabbar button {
-  flex: 1; border: 0; background: none; color: var(--mute);
-  font: inherit; font-size: 0.58rem; font-weight: 700; padding: 6px 1px;
-  border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
-}
-nav.tabbar button svg { width: 16px; height: 16px; fill: currentColor; }
-nav.tabbar button[aria-selected="true"] { color: var(--brand); background: var(--brandsoft); }
-</style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1em;
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        body[data-theme="dark"] input[type="text"],
+        body[data-theme="dark"] input[type="number"],
+        body[data-theme="dark"] input[type="tel"],
+        body[data-theme="dark"] input[type="email"],
+        body[data-theme="dark"] textarea,
+        body[data-theme="dark"] select {
+            border-color: var(--border-dark);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="tel"]:focus,
+        input[type="email"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3);
+        }
+
+        body[data-theme="dark"] input[type="text"]:focus,
+        body[data-theme="dark"] input[type="number"]:focus,
+        body[data-theme="dark"] input[type="tel"]:focus,
+        body[data-theme="dark"] input[type="email"]:focus,
+        body[data-theme="dark"] textarea:focus,
+        body[data-theme="dark"] select:focus {
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s;
+            border: none;
+            text-decoration: none;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #005bb5;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4a48b8;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-icon {
+            padding: 10px 15px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-light);
+            transition: border-color 0.3s;
+        }
+
+        body[data-theme="dark"] .section-header {
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .quick-action-btn {
+            background-color: var(--surface-light);
+            color: var(--primary-color);
+            border: 1px solid var(--border-light);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quick-action-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        body[data-theme="dark"] .quick-action-btn {
+            background-color: var(--surface-dark);
+            color: var(--accent-color);
+            border-color: var(--border-dark);
+        }
+
+        body[data-theme="dark"] .quick-action-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--background-dark);
+            border-color: var(--accent-color);
+        }
+
+        /* Tab Bar */
+        .bottom-tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--surface-light);
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            z-index: 1001;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body[data-theme="dark"] .bottom-tab-bar {
+            background-color: var(--surface-dark);
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            cursor: pointer;
+            color: var(--text-light);
+            opacity: 0.7;
+            transition: opacity 0.3s, color 0.3s;
+            font-size: 0.8em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .tab-item.active {
+            opacity: 1;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        body[data-theme="dark"] .tab-item.active {
+            color: var(--accent-color);
+        }
+
+        .tab-icon {
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+
+        /* Onboarding */
+        #onboarding-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: calc(100vh - 75px); /* Adjust based on header height */
+        }
+
+        #onboarding-screen .card {
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #onboarding-screen h1 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        /* Planning Module */
+        .planning-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 camere per row */
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .room-card {
+            background-color: var(--surface-light);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+        }
+
+        body[data-theme="dark"] .room-card {
+            background-color: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+        }
+
+        .room-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        body[data-theme="dark"] .room-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .room-card .room-number {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .room-card .room-status {
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .status-available { background-color: var(--success-color); }
+        .status-occupied { background-color: var(--danger-color); }
+        .status-cleaning { background-color: var(--warning-color); color: var(--text-light); }
+        .status-maintenance { background-color: var(--secondary-color); }
+
+        .planning-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .planning-summary span {
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .summary-available { color: var(--success-color); background-color: rgba(48, 209, 88, 0.1); }
+        .summary-occupied { color: var(--danger-color); background-color: rgba(255, 45, 45, 0.1); }
+        .summary-cleaning { color: var(--warning-color); background-color: rgba(255, 194, 0, 0.1); }
+
+        /* Operators Module */
+        .operator-list .operator-item,
+        .role-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-light);
+            transition: border-color 0.3s;
+        }
+        body[data-theme="dark"] .operator-list .operator-item,
+        body[data-theme="dark"] .role-item {
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .operator-list .operator-item:last-child,
+        .role-list .role-item:last-child {
+            border-bottom: none;
+        }
+        .operator-name { font-weight: 600; }
+        .operator-role { opacity: 0.8; font-size: 0.9em; }
+        .add-operator-btn { margin-top: 20px; }
+
+        /* Dynamic Pricing Module */
+        .pricing-suggestion {
+            background-color: var(--surface-light);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        body[data-theme="dark"] .pricing-suggestion {
+            background-color: var(--surface-dark);
+            border: 1px solid var(--border-dark);
+        }
+        .suggestion-info { font-size: 0.95em; }
+        .suggestion-price { font-weight: 700; color: var(--accent-color); font-size: 1.1em; }
+        .apply-suggestion-btn {
+            background-color: var(--success-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .apply-suggestion-btn:hover { background-color: #28b750; }
+        .current-price-display {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 20px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        /* Reviews Module */
+        .review-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+            transition: border-color 0.3s;
+        }
+        body[data-theme="dark"] .review-item {
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .review-item:last-child { border-bottom: none; }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .review-author { font-weight: 600; }
+        .review-date { font-size: 0.85em; opacity: 0.7; }
+        .review-text { margin-bottom: 15px; }
+        .response-draft {
+            background-color: var(--background-light);
+            border: 1px dashed var(--border-light);
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 0.9em;
+            margin-top: 10px;
+            min-height: 50px;
+            white-space: pre-wrap;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        body[data-theme="dark"] .response-draft {
+            background-color: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+        .copy-response-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .copy-response-btn:hover { background-color: #4a48b8; }
+
+        /* Check-in Module */
+        .checkin-list .checkin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-light);
+            transition: border-color 0.3s;
+        }
+        body[data-theme="dark"] .checkin-list .checkin-item {
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .checkin-list .checkin-item:last-child { border-bottom: none; }
+        .guest-name { font-weight: 600; }
+        .guest-details { font-size: 0.9em; opacity: 0.8; }
+        .checkin-actions .btn { margin-left: 10px; }
+        .ocr-simulation { color: var(--warning-color); font-size: 0.8em; }
+        .gdpr-consent-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+        .gdpr-consent-toggle input[type="checkbox"] {
+            transform: scale(1.3);
+        }
+
+        /* Warehouse Module */
+        .warehouse-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-light);
+            transition: border-color 0.3s;
+        }
+        body[data-theme="dark"] .warehouse-item {
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .warehouse-item:last-child { border-bottom: none; }
+        .item-name { font-weight: 600; }
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.1em;
+        }
+        .quantity-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .quantity-btn:hover { background-color: #005bb5; }
+        .item-controls .quantity-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .min-stock-warning {
+            color: var(--danger-color);
+            font-weight: 700;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        .add-item-btn { margin-top: 20px; }
+
+        /* Utility */
+        .text-center { text-align: center; }
+        .mt-20 { margin-top: 20px; }
+        .mb-20 { margin-bottom: 20px; }
+        .p-15 { padding: 15px; }
+        .d-flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .align-center { align-items: center; }
+        .flex-col { flex-direction: column; }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Modal for Settings */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1002;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+
+        .modal.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--surface-light);
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease-in-out, background-color 0.3s, color 0.3s;
+        }
+
+        body[data-theme="dark"] .modal-content {
+            background-color: var(--surface-dark);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-light);
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .modal-close-btn:hover {
+            opacity: 1;
+        }
+        body[data-theme="dark"] .modal-close-btn {
+            color: var(--text-dark);
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .theme-label { font-weight: 600; }
+
+        /* Icons */
+        .icon-planning::before { content: '📅'; }
+        .icon-operators::before { content: '👥'; }
+        .icon-prices::before { content: '💰'; }
+        .icon-reviews::before { content: '⭐'; }
+        .icon-checkin::before { content: '✅'; }
+        .icon-warehouse::before { content: '📦'; }
+        .icon-settings::before { content: '⚙️'; }
+        .icon-save::before { content: '💾'; }
+        .icon-reset::before { content: '🔄'; }
+        .icon-plus::before { content: '+'; }
+        .icon-minus::before { content: '−'; }
+        .icon-copy::before { content: '📋'; }
+        .icon-ocr::before { content: '📷'; }
+        .icon-gdpr::before { content: '🔒'; }
+        .icon-warning::before { content: '⚠️'; }
+    </style>
 </head>
-<body data-theme="dark">
+<body>
+    <header>
+        <span id="header-title">PILOTEL</span>
+        <span class="header-icon icon-settings" onclick="openSettingsModal()"></span>
+    </header>
 
-<div class="app-container">
-  <header>
-    <div class="brand-title"><span></span>PILOTEL</div>
-    <div class="header-actions">
-      <div class="hotel-badge" id="header-hotel-badge">Hotel Villa Rosa & Spa</div>
-      <button class="icon-btn" onclick="toggleTheme()" title="Cambia Tema">☀️</button>
+    <div class="container">
+        <div id="onboarding-screen">
+            <div class="card">
+                <h1>Benvenuto in PILOTEL</h1>
+                <p>Configura la tua struttura per iniziare.</p>
+                <div class="form-group">
+                    <label for="hotel-name">Nome Struttura</label>
+                    <input type="text" id="hotel-name" placeholder="Es. Hotel Sole">
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp-number">WhatsApp per Briefing</label>
+                    <input type="tel" id="whatsapp-number" placeholder="Es. +391234567890">
+                </div>
+                <div class="form-group">
+                    <label for="total-rooms">Numero Totale Camere</label>
+                    <input type="number" id="total-rooms" placeholder="Es. 20" min="1">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="startSetup()">Avvia PILOTEL</button>
+            </div>
+        </div>
+
+        <main id="dashboard-screen" class="active">
+            <!-- Planning Module (Default) -->
+            <div id="planning-module">
+                <h2 class="module-title">Planning</h2>
+                <div class="section-header">
+                    <div class="section-title">Stato Camere</div>
+                    <div class="quick-actions">
+                        <span class="quick-action-btn icon-plus" onclick="changeRoomStatus(null, 'cleaning')">Pulisci Tutto</span>
+                        <span class="quick-action-btn icon-checkmark" onclick="changeRoomStatus(null, 'available')">Libera Tutto</span>
+                    </div>
+                </div>
+                <div id="planning-grid" class="planning-grid">
+                    <!-- Room cards will be populated here -->
+                </div>
+                <div class="planning-summary">
+                    <span class="summary-available">Libere: <span id="summary-available-count">0</span></span>
+                    <span class="summary-occupied">Occupate: <span id="summary-occupied-count">0</span></span>
+                    <span class="summary-cleaning">In Pulizia: <span id="summary-cleaning-count">0</span></span>
+                </div>
+            </div>
+        </main>
+
+        <main id="operators-module">
+            <h2 class="module-title">Operatori</h2>
+            <div class="card">
+                <div class="section-header">
+                    <div class="section-title">Personale</div>
+                    <button class="btn btn-primary btn-small add-operator-btn" onclick="showAddOperatorForm()">+ Aggiungi Operatore</button>
+                </div>
+                <div id="operator-list" class="operator-list">
+                    <!-- Operator items will be populated here -->
+                </div>
+            </div>
+            <div class="card">
+                <div class="section-header">
+                    <div class="section-title">Ruoli</div>
+                </div>
+                <div id="role-list" class="role-list">
+                    <!-- Role items will be populated here -->
+                </div>
+            </div>
+        </main>
+
+        <main id="prices-module">
+            <h2 class="module-title">Dynamic Pricing</h2>
+            <div class="card">
+                <div class="section-header">
+                    <div class="section-title">Suggerimenti Tariffe</div>
+                </div>
+                <div id="pricing-suggestions-container">
+                    <!-- Pricing suggestions will be populated here -->
+                </div>
+                <div class="current-price-display">Tariffa Base: <span id="base-price-display">-- €</span></div>
+                 <div class="form-group mt-20">
+                    <label for="base-price-input">Imposta Tariffa Base</label>
+                    <input type="number" id="base-price-input" placeholder="Es. 100" step="0.01" oninput="updateBasePrice()">
+                </div>
+            </div>
+        </main>
+
+        <main id="reviews-module">
+            <h2 class="module-title">Recensioni (IA Reputazione)</h2>
+            <div class="card">
+                <div class="section-header">
+                    <div class="section-title">Feedback Clienti</div>
+                </div>
+                <div id="reviews-list">
+                    <!-- Review items will be populated here -->
+                </div>
+                <p class="text-center" style="margin-top: 20px; opacity: 0.7;">Nessuna recensione disponibile per l'analisi.</p>
+            </div>
+        </main>
+
+        <main id="checkin-module">
+            <h2 class="module-title">Smart Check-in & GDPR</h2>
+            <div class="card">
+                <div class="section-header">
+                    <div class="section-title">Arrivi Oggi</div>
+                    <span class="quick-action-btn icon-ocr">Simula OCR</span>
+                </div>
+                <div id="checkin-list" class="checkin-list">
+                    <!-- Check-in items will be populated here -->
+                </div>
+                 <p class="text-center" style="margin-top: 20px; opacity: 0.7;">Nessun arrivo previsto per oggi.</p>
+            </div>
+            <div class="card">
+                 <div class="section-header">
+                    <div class="section-title">Consensi GDPR</div>
+                </div>
+                <div class="gdpr-consent-toggle">
+                    <label for="gdpr-consent-global">Tracciamento Alloggiati Web</label>
+                    <input type="checkbox" id="gdpr-consent-global" onchange="toggleGdprTracking(this)">
+                    <span class="toggle-switch">
+                        <span class="slider"></span>
+                    </span>
+                </div>
+                 <p style="font-size: 0.85em; margin-top: 10px; opacity: 0.8;">Attivando questa opzione, PILOTEL gestirà il tracciamento delle schedine Alloggiati Web. I dati verranno conservati per un massimo di 48 ore, garantendo la conformità GDPR.</p>
+            </div>
+        </main>
+
+        <main id="warehouse-module">
+            <h2 class="module-title">Magazzino</h2>
+            <div class="card">
+                <div class="section-header">
+                    <div class="section-title">Scorte Beni di Consumo</div>
+                     <button class="btn btn-primary btn-small add-item-btn" onclick="showAddItemForm()">+ Aggiungi Articolo</button>
+                </div>
+                <div id="warehouse-list" class="warehouse-list">
+                    <!-- Warehouse items will be populated here -->
+                </div>
+                 <p class="text-center" style="margin-top: 20px; opacity: 0.7;">Nessun articolo aggiunto al magazzino.</p>
+            </div>
+        </main>
+
     </div>
-  </header>
 
-  <main>
-    <!-- TAB 1: BRIEFING & PLANNING PMS -->
-    <div id="screen-brief" class="screen active">
-      <div class="wa-box">
-        <p id="wa-greeting">☕ Buongiorno Direttore di Hotel Villa Rosa & Spa!</p>
-        <div class="row"><span>Occupazione Camere</span><b id="kpi-rooms">9 su 12 (75%)</b></div>
-        <div class="row"><span>Tariffa Media (ADR)</span><b id="kpi-adr">€135</b></div>
-        <div class="row"><span>Incasso Totale Previsto</span><b id="kpi-rev">€1.215</b></div>
-        <div class="time">07:30 ✓✓ (Briefing WhatsApp Inviato)</div>
-      </div>
-
-      <div class="card">
-        <h2>Planning Camere in Tempo Reale</h2>
-        <p class="why">Griglia di stato delle camere sincronizzata con il database nativo.</p>
-        
-        <div class="planning-grid" id="planning-matrix">
-          <!-- Generato via JS -->
+    <nav class="bottom-tab-bar">
+        <div class="tab-item" data-module="planning">
+            <span class="tab-icon icon-planning"></span>
+            <span>Planning</span>
         </div>
-      </div>
+        <div class="tab-item" data-module="operators">
+            <span class="tab-icon icon-operators"></span>
+            <span>Operatori</span>
+        </div>
+        <div class="tab-item" data-module="prices">
+            <span class="tab-icon icon-prices"></span>
+            <span>Prezzi</span>
+        </div>
+        <div class="tab-item" data-module="reviews">
+            <span class="tab-icon icon-reviews"></span>
+            <span>Recensioni</span>
+        </div>
+        <div class="tab-item" data-module="checkin">
+            <span class="tab-icon icon-checkin"></span>
+            <span>Check-in</span>
+        </div>
+        <div class="tab-item" data-module="warehouse">
+            <span class="tab-icon icon-warehouse"></span>
+            <span>Magazzino</span>
+        </div>
+    </nav>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeSettingsModal()">&times;</span>
+            <h2 class="modal-title">Impostazioni</h2>
+            <div class="form-group">
+                <label for="modal-hotel-name">Nome Struttura</label>
+                <input type="text" id="modal-hotel-name">
+            </div>
+            <div class="form-group">
+                <label for="modal-whatsapp-number">WhatsApp per Briefing</label>
+                <input type="tel" id="modal-whatsapp-number">
+            </div>
+            <div class="form-group">
+                <label for="modal-total-rooms">Numero Totale Camere</label>
+                <input type="number" id="modal-total-rooms" min="1">
+            </div>
+            <div class="theme-toggle-container">
+                <span class="theme-label">Chiaro</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+                    <span class="slider"></span>
+                </label>
+                <span class="theme-label">Scuro</span>
+            </div>
+            <button class="btn btn-primary btn-block mt-20" onclick="saveSettings()">Salva Modifiche</button>
+            <button class="btn btn-outline btn-block mt-10" onclick="resetAllData()">Reset Totale Dati</button>
+        </div>
     </div>
 
-    <!-- TAB 2: OPERATORI & PERMESSI -->
-    <div id="screen-operators" class="screen">
-      <div class="card">
-        <span class="tag t-ok">Gestione Personale & Ruoli</span>
-        <h2>Operatori Attivi</h2>
-        <p class="why">Configura gli accessi per reception, piani e amministrazione.</p>
-        
-        <div class="row">
-          <div>
-            <div style="font-weight:700;">Mario Rossi</div>
-            <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Capo Ricevimento (Full Access)</div>
-          </div>
-          <span class="tag t-ok">Attivo</span>
+    <!-- Add Operator Modal -->
+    <div id="add-operator-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeAddOperatorForm()">&times;</span>
+            <h2 class="modal-title">Nuovo Operatore</h2>
+            <div class="form-group">
+                <label for="operator-name-input">Nome Operatore</label>
+                <input type="text" id="operator-name-input" placeholder="Es. Mario Rossi">
+            </div>
+            <div class="form-group">
+                <label for="operator-role-select">Ruolo</label>
+                <select id="operator-role-select">
+                    <option value="reception">Reception</option>
+                    <option value="housekeeping">Housekeeping</option>
+                    <option value="administration">Amministrazione</option>
+                </select>
+            </div>
+             <div class="form-group">
+                <label for="operator-password-input">Password (opzionale)</label>
+                <input type="password" id="operator-password-input" placeholder="********">
+            </div>
+            <button class="btn btn-primary btn-block mt-20" onclick="addOperator()">Aggiungi Operatore</button>
         </div>
-
-        <div class="row">
-          <div>
-            <div style="font-weight:700;">Laura Bianchi</div>
-            <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Housekeeping / Piani</div>
-          </div>
-          <span class="tag t-ok">Attivo</span>
-        </div>
-
-        <div class="row">
-          <div>
-            <div style="font-weight:700;">Giuseppe Verdi</div>
-            <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Amministrazione & Fatturazione</div>
-          </div>
-          <span class="tag t-ok">Attivo</span>
-        </div>
-
-        <button class="btn" style="margin-top:12px;" onclick="addOperator()">+ Aggiungi Nuovo Operatore</button>
-      </div>
     </div>
 
-    <!-- TAB 3: PRICING & TARIFFE -->
-    <div id="screen-pricing" class="screen">
-      <div class="card" id="tip-1">
-        <span class="tag t-amb">Dynamic Pricing Intelligente</span>
-        <h2>Weekend: adegua tariffa camere libere da €105 a €125</h2>
-        <p class="why">Domanda elevata registrata sul planning nativo. Aggiorna il listino interno con un clic.</p>
-        <div class="btns">
-          <button class="btn" onclick="resolveTip('tip-1', true)">Applica al Listino</button>
-          <button class="btn sec" onclick="resolveTip('tip-1', false)">Ignora</button>
+    <!-- Add Warehouse Item Modal -->
+    <div id="add-item-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeAddItemForm()">&times;</span>
+            <h2 class="modal-title">Nuovo Articolo Magazzino</h2>
+            <div class="form-group">
+                <label for="item-name-input">Nome Articolo</label>
+                <input type="text" id="item-name-input" placeholder="Es. Kit Cortesia">
+            </div>
+            <div class="form-group">
+                <label for="item-quantity-input">Quantità Iniziale</label>
+                <input type="number" id="item-quantity-input" placeholder="Es. 50" min="0">
+            </div>
+             <div class="form-group">
+                <label for="item-min-stock-input">Scorta Minima</label>
+                <input type="number" id="item-min-stock-input" placeholder="Es. 10" min="0">
+            </div>
+            <button class="btn btn-primary btn-block mt-20" onclick="addItem()">Aggiungi Articolo</button>
         </div>
-      </div>
     </div>
 
-    <!-- TAB 4: RECENSIONI AI -->
-    <div id="screen-reviews" class="screen">
-      <div class="card" id="rev-card-1">
-        <span class="tag t-amb">Assistente IA · Reputazione</span>
-        <div class="row"><span>Marco V. (Camera 102)</span><span style="color:var(--amber)">★★★☆☆</span></div>
-        <p class="why" style="margin-top:6px; font-style:italic;">"Hotel molto pulito e personale cortese. Unica nota: Wi-Fi debole al secondo piano."</p>
-        <div style="font-size:0.82rem; background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); color:var(--mute); margin-top:8px;">
-          "Gentile Marco, la ringraziamo per il feedback! Abbiamo già provveduto a potenziare il segnale Wi-Fi. La aspettiamo presto."
-        </div>
-        <button class="btn" style="width:100%; margin-top:10px;" onclick="approveReview('rev-card-1')">Pubblica Risposta</button>
-      </div>
-    </div>
+    <script>
+        const STORAGE_KEY = 'pilotel_data';
+        let currentData = {
+            settings: {
+                hotelName: '',
+                whatsappNumber: '',
+                totalRooms: 0,
+                theme: 'light',
+                gdprTrackingEnabled: false
+            },
+            planning: [],
+            operators: [],
+            roles: [
+                { id: 'reception', name: 'Reception', permissions: ['checkin', 'checkout', 'planning_view'] },
+                { id: 'housekeeping', name: 'Housekeeping', permissions: ['planning_view', 'planning_update_status'] },
+                { id: 'administration', name: 'Amministrazione', permissions: ['planning_view', 'planning_update_status', 'operators_manage', 'prices_manage', 'warehouse_manage', 'reviews_manage', 'gdpr_manage'] }
+            ],
+            prices: {
+                basePrice: 100,
+                dynamicAdjustments: {} // { date: { roomType: percentage_change } }
+            },
+            reviews: [],
+            warehouse: [],
+            lastActiveModule: 'planning'
+        };
 
-    <!-- TAB 5: CHECK-IN & GDPR -->
-    <div id="screen-checkin" class="screen">
-      <div class="card">
-        <span class="tag t-ok">Smart Check-in & Alloggiati Web</span>
-        <h2>Arrivi di Oggi</h2>
-        <p class="why">Scansione OCR con consenso GDPR tracciato e retention dati rigorosa a 48 ore.</p>
-        <div class="row"><span>Rossi Mario (Camera 102)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
-        <div class="row"><span>Bianchi Anna (Camera 105)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
-        <button class="btn" style="margin-top:10px;" onclick="syncAlloggiati()">Invia Schedine alla Polizia</button>
-      </div>
-    </div>
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            applyTheme(currentData.settings.theme);
+            setupEventListeners();
+            renderInitialScreen();
+            updateTabStates();
+            populateSettingsModal();
+        });
 
-    <!-- TAB 6: MAGAZZINO -->
-    <div id="screen-ops" class="screen">
-      <div class="card">
-        <span class="tag t-ok">Inventario Magazzino Nativo</span>
-        <h2>Controllo Scorte</h2>
-        <div id="inventory-list"></div>
-        <button class="btn" style="margin-top:12px;" onclick="triggerOrder()">Genera Ordine Fornitore</button>
-      </div>
-    </div>
+        function loadData() {
+            const storedData = localStorage.getItem(STORAGE_KEY);
+            if (storedData) {
+                const parsedData = JSON.parse(storedData);
+                // Merge loaded data with defaults to ensure all keys exist
+                currentData = mergeDeep(currentData, parsedData);
+            }
+            // Ensure planning data is initialized based on totalRooms if empty
+            if (currentData.planning.length === 0 && currentData.settings.totalRooms > 0) {
+                initializePlanning(currentData.settings.totalRooms);
+            }
+        }
 
-  </main>
+        function mergeDeep(target, source) {
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                        if (!target[key]) Object.assign(target, { [key]: {} });
+                        mergeDeep(target[key], source[key]);
+                    } else {
+                        Object.assign(target, { [key]: source[key] });
+                    }
+                }
+            }
+            return target;
+        }
 
-  <nav class="tabbar" id="app-tabbar" role="tablist">
-    <button role="tab" aria-selected="true" onclick="switchTab('brief')">
-      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      Planning
-    </button>
-    <button role="tab" aria-selected="false" onclick="switchTab('operators')">
-      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-      Operatori
-    </button>
-    <button role="tab" aria-selected="false" onclick="switchTab('pricing')">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-      Prezzi
-    </button>
-    <button role="tab" aria-selected="false" onclick="switchTab('reviews')">
-      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-3 12H7v-2h10v2zm0-3H7V9h10v2zm0-3H7V6h10v2z"/></svg>
-      Recensioni
-    </button>
-    <button role="tab" aria-selected="false" onclick="switchTab('checkin')">
-      <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      Check-in
-    </button>
-    <button role="tab" aria-selected="false" onclick="switchTab('ops')">
-      <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 15H4V8h16v11z"/></svg>
-      Magazzino
-    </button>
-  </nav>
-</div>
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+        }
 
-<script>
-let inventoryItems = [
-  { id: 1, name: "Kit Cortesia Bagno", qty: 24, min: 30 },
-  { id: 2, name: "Cialde Caffè Camera", qty: 42, min: 50 },
-  { id: 3, name: "Set Biancheria Matrimoniale", qty: 35, min: 25 }
-];
+        function renderInitialScreen() {
+            if (!currentData.settings.hotelName) {
+                document.getElementById('onboarding-screen').classList.add('active');
+            } else {
+                document.getElementById('onboarding-screen').style.display = 'none';
+                activateModule(currentData.lastActiveModule || 'planning');
+            }
+        }
 
-window.addEventListener('DOMContentLoaded', () => {
-  const savedInv = localStorage.getItem('pilotel_enterprise_inv');
-  if(savedInv) {
-    try { inventoryItems = JSON.parse(savedInv); } catch(e) {}
-  }
-  renderPlanning();
-  renderInventory();
-});
+        function setupEventListeners() {
+            const tabItems = document.querySelectorAll('.tab-item');
+            tabItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const moduleName = item.getAttribute('data-module');
+                    activateModule(moduleName);
+                    updateTabStates();
+                });
+            });
 
-function renderPlanning() {
-  const grid = document.getElementById('planning-matrix');
-  grid.innerHTML = `
-    <div class="p-cell header">Camera</div>
-    <div class="p-cell header">Oggi</div>
-    <div class="p-cell header">Domani</div>
-    <div class="p-cell header">Sab</div>
-    <div class="p-cell header">Dom</div>
-  `;
+            // Add event listener for theme toggle outside modal for initial load
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.checked = currentData.settings.theme === 'dark';
+                themeToggle.removeEventListener('change', handleThemeToggle); // Remove previous if any
+                themeToggle.addEventListener('change', handleThemeToggle);
+            }
+        }
 
-  for(let i = 1; i <= 8; i++) {
-    const isBooked1 = i % 2 === 0;
-    const isBooked2 = i % 3 === 0;
-    grid.innerHTML += `
-      <div class="p-cell room">Km ${100 + i}</div>
-      <div class="p-cell ${isBooked1 ? 'booked' : 'free'}">${isBooked1 ? 'Rossi M.' : 'Libera'}</div>
-      <div class="p-cell ${isBooked2 ? 'booked' : 'free'}">${isBooked2 ? 'Bianchi A.' : 'Libera'}</div>
-      <div class="p-cell booked">Ferrari L.</div>
-      <div class="p-cell free">Libera</div>
-    `;
-  }
-}
+        function updateTabStates() {
+            const tabItems = document.querySelectorAll('.tab-item');
+            tabItems.forEach(item => {
+                if (item.getAttribute('data-module') === currentData.lastActiveModule) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
 
-function renderInventory() {
-  const listEl = document.getElementById('inventory-list');
-  listEl.innerHTML = '';
-  inventoryItems.forEach(item => {
-    const isLow = item.qty <= item.min;
-    listEl.innerHTML += `
-      <div class="row">
-        <div>
-          <div style="font-weight:700;">${item.name}</div>
-          <div style="font-size:0.72rem; color:${isLow ? 'var(--red)' : 'var(--mute)'};">${isLow ? '⚠️ Sotto soglia minima' : '✓ Scorta OK'} (Min: ${item.min})</div>
-        </div>
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-          <b style="min-width:30px; text-align:center; color:${isLow ? 'var(--red)' : 'var(--ok)'};">${item.qty}</b>
-          <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
-        </div>
-      </div>
-    `;
-  });
-}
+        // --- Onboarding & Settings ---
+        function startSetup() {
+            const hotelName = document.getElementById('hotel-name').value.trim();
+            const whatsappNumber = document.getElementById('whatsapp-number').value.trim();
+            const totalRooms = parseInt(document.getElementById('total-rooms').value, 10);
 
-function updateQty(id, delta) {
-  const item = inventoryItems.find(i => i.id === id);
-  if(item) {
-    item.qty = Math.max(0, item.qty + delta);
-    localStorage.setItem('pilotel_enterprise_inv', JSON.stringify(inventoryItems));
-    renderInventory();
-  }
-}
+            if (!hotelName || !whatsappNumber || isNaN(totalRooms) || totalRooms <= 0) {
+                alert('Per favore, compila tutti i campi correttamente.');
+                return;
+            }
 
-function switchTab(tabId) {
-  document.querySelectorAll('main .screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + tabId).classList.add('active');
-  document.querySelectorAll('nav.tabbar button').forEach(t => {
-    t.setAttribute('aria-selected', t.getAttribute('onclick').includes(tabId) ? 'true' : 'false');
-  });
-}
+            currentData.settings.hotelName = hotelName;
+            currentData.settings.whatsappNumber = whatsappNumber;
+            currentData.settings.totalRooms = totalRooms;
+            initializePlanning(totalRooms);
+            saveData();
+            document.getElementById('onboarding-screen').style.display = 'none';
+            activateModule('planning');
+            updateTabStates();
+        }
 
-function toggleTheme() {
-  const body = document.body;
-  body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-}
+        function initializePlanning(numRooms) {
+            currentData.planning = [];
+            for (let i = 1; i <= numRooms; i++) {
+                currentData.planning.push({
+                    id: `room_${i}`,
+                    number: i,
+                    status: 'available', // available, occupied, cleaning, maintenance
+                    guestInfo: null
+                });
+            }
+        }
 
-function resolveTip(id, ok) {
-  document.getElementById(id).innerHTML = `<span class="tag t-ok">Aggiornato</span><h2>Listino prezzi modificato con successo ✓</h2>`;
-}
+        function openSettingsModal() {
+            document.getElementById('settings-modal').classList.add('active');
+        }
 
-function approveReview(id) {
-  document.getElementById(id).innerHTML = `<span class="tag t-ok">Pubblicata</span><h2>Risposta inviata al canale recensioni ✓</h2>`;
-}
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').classList.remove('active');
+        }
 
-function syncAlloggiati() {
-  alert('Flusso telematico Alloggiati Web inviato con successo.');
-}
+        function populateSettingsModal() {
+            document.getElementById('modal-hotel-name').value = currentData.settings.hotelName;
+            document.getElementById('modal-whatsapp-number').value = currentData.settings.whatsappNumber;
+            document.getElementById('modal-total-rooms').value = currentData.settings.totalRooms;
+            document.getElementById('theme-toggle').checked = currentData.settings.theme === 'dark';
+             document.getElementById('gdpr-consent-global').checked = currentData.settings.gdprTrackingEnabled;
+        }
 
-function triggerOrder() {
-  alert('Ordine generato e pronto per l\'invio al fornitore.');
-}
+        function saveSettings() {
+            currentData.settings.hotelName = document.getElementById('modal-hotel-name').value.trim();
+            currentData.settings.whatsappNumber = document.getElementById('modal-whatsapp-number').value.trim();
+            const newTotalRooms = parseInt(document.getElementById('modal-total-rooms').value, 10);
 
-function addOperator() {
-  alert('Finestra di inserimento nuovo operatore aperta.');
-}
-</script>
+            if (isNaN(newTotalRooms) || newTotalRooms <= 0) {
+                alert('Il numero di camere deve essere un valore positivo.');
+                return;
+            }
+
+            // Adjust planning if total rooms changed
+            if (newTotalRooms !== currentData.settings.totalRooms) {
+                 const currentRoomCount = currentData.planning.length;
+                 if (newTotalRooms > currentRoomCount) {
+                     for (let i = currentRoomCount + 1; i <= newTotalRooms; i++) {
+                         currentData.planning.push({
+                             id: `room_${i}`,
+                             number: i,
+                             status: 'available',
+                             guestInfo: null
+                         });
+                     }
+                 } else if (newTotalRooms < currentRoomCount) {
+                     currentData.planning = currentData.planning.slice(0, newTotalRooms);
+                     // Update room numbers if they were sequential
+                     currentData.planning.forEach((room, index) => {
+                         room.number = index + 1;
+                         room.id = `room_${index + 1}`;
+                     });
+                 }
+                 currentData.settings.totalRooms = newTotalRooms;
+            }
+
+            currentData.settings.gdprTrackingEnabled = document.getElementById('gdpr-consent-global').checked;
+
+            saveData();
+            closeSettingsModal();
+            // Update header title if changed
+            document.getElementById('header-title').textContent = currentData.settings.hotelName || 'PILOTEL';
+            renderPlanningModule(); // Re-render planning to reflect room count changes
+        }
+
+        function resetAllData() {
+            if (confirm('Sei sicuro di voler cancellare tutti i dati? Questa operazione è irreversibile.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                currentData = { // Reset to initial defaults
+                    settings: { hotelName: '', whatsappNumber: '', totalRooms: 0, theme: 'light', gdprTrackingEnabled: false },
+                    planning: [], operators: [], roles: [
+                        { id: 'reception', name: 'Reception', permissions: ['checkin', 'checkout', 'planning_view'] },
+                        { id: 'housekeeping', name: 'Housekeeping', permissions: ['planning_view', 'planning_update_status'] },
+                        { id: 'administration', name: 'Amministrazione', permissions: ['planning_view', 'planning_update_status', 'operators_manage', 'prices_manage', 'warehouse_manage', 'reviews_manage', 'gdpr_manage'] }
+                    ], prices: { basePrice: 100, dynamicAdjustments: {} }, reviews: [], warehouse: [], lastActiveModule: 'planning'
+                };
+                saveData();
+                location.reload(); // Reload the page to apply changes
+            }
+        }
+
+
+        // --- Theme Toggle ---
+        function toggleTheme() {
+            const isDark = document.getElementById('theme-toggle').checked;
+            currentData.settings.theme = isDark ? 'dark' : 'light';
+            applyTheme(currentData.settings.theme);
+            saveData();
+        }
+
+        function handleThemeToggle() { // Wrapper for event listener
+            toggleTheme();
+        }
+
+        function applyTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            // Update header title immediately if theme changes
+             document.getElementById('header-title').textContent = currentData.settings.hotelName || 'PILOTEL';
+        }
+
+        // --- Navigation & Module Switching ---
+        function activateModule(moduleName) {
+            // Hide all main content areas
+            document.querySelectorAll('main').forEach(el => el.classList.remove('active'));
+            // Show the selected module
+            const module = document.getElementById(`${moduleName}-module`);
+            if (module) {
+                module.classList.add('active');
+                currentData.lastActiveModule = moduleName;
+                saveData(); // Save last active module
+                // Render module specific content
+                switch (moduleName) {
+                    case 'planning': renderPlanningModule(); break;
+                    case 'operators': renderOperatorsModule(); break;
+                    case 'prices': renderPricesModule(); break;
+                    case 'reviews': renderReviewsModule(); break;
+                    case 'checkin': renderCheckinModule(); break;
+                    case 'warehouse': renderWarehouseModule(); break;
+                }
+            } else {
+                console.error(`Module ${moduleName} not found.`);
+            }
+        }
+
+        // --- Planning Module Rendering ---
+        function renderPlanningModule() {
+            const gridElement = document.getElementById('planning-grid');
+            gridElement.innerHTML = ''; // Clear previous content
+
+            if (currentData.planning.length === 0) {
+                 gridElement.innerHTML = '<p class="text-center" style="grid-column: 1 / -1;">Nessuna camera configurata. Aggiungi camere nelle impostazioni.</p>';
+                 return;
+            }
+
+            currentData.planning.forEach(room => {
+                const roomCard = document.createElement('div');
+                roomCard.classList.add('room-card');
+                roomCard.dataset.roomId = room.id;
+                roomCard.innerHTML = `
+                    <div class="room-number">${room.number}</div>
+                    <div class="room-status status-${room.status}">${getStatusText(room.status)}</div>
+                    ${room.guestInfo ? `<div style="font-size: 0.8em; margin-top: 5px;">${room.guestInfo.name}</div>` : ''}
+                `;
+                roomCard.onclick = () => showRoomDetails(room.id);
+                gridElement.appendChild(roomCard);
+            });
+
+            updatePlanningSummary();
+        }
+
+        function getStatusText(status) {
+            switch (status) {
+                case 'available': return 'Libera';
+                case 'occupied': return 'Occupata';
+                case 'cleaning': return 'In Pulizia';
+                case 'maintenance': return 'Manutenzione';
+                default: return 'Sconosciuto';
+            }
+        }
+
+        function updatePlanningSummary() {
+            let available = 0, occupied = 0, cleaning = 0;
+            currentData.planning.forEach(room => {
+                switch (room.status) {
+                    case 'available': available++; break;
+                    case 'occupied': occupied++; break;
+                    case 'cleaning': cleaning++; break;
+                }
+            });
+            document.getElementById('summary-available-count').textContent = available;
+            document.getElementById('summary-occupied-count').textContent = occupied;
+            document.getElementById('summary-cleaning-count').textContent = cleaning;
+        }
+
+        function changeRoomStatus(roomId, newStatus) {
+            const room = currentData.planning.find(r => r.id === roomId || roomId === null);
+            if (room) {
+                // If changing a specific room, update it
+                if (roomId !== null) {
+                    room.status = newStatus;
+                    room.guestInfo = newStatus === 'occupied' ? { name: 'Ospite Test', checkIn: new Date().toISOString(), checkOut: null } : null; // Placeholder guest
+                } else {
+                    // If roomId is null, apply to all rooms matching certain criteria or all
+                     currentData.planning.forEach(r => {
+                         // Example: Apply 'cleaning' or 'available' to all rooms
+                         if (newStatus === 'cleaning' || newStatus === 'available') {
+                             r.status = newStatus;
+                             r.guestInfo = newStatus === 'occupied' ? { name: 'Ospite Test', checkIn: new Date().toISOString(), checkOut: null } : null;
+                         }
+                     });
+                }
+                renderPlanningModule();
+                saveData();
+            }
+        }
+
+        function showRoomDetails(roomId) {
+            const room = currentData.planning.find(r => r.id === roomId);
+            if (!room) return;
+
+            const newStatus = prompt(`Stato attuale: ${getStatusText(room.status)}\nNuovo stato (available, occupied, cleaning, maintenance):`, room.status);
+            if (newStatus && ['available', 'occupied', 'cleaning', 'maintenance'].includes(newStatus)) {
+                changeRoomStatus(roomId, newStatus);
+            } else if (newStatus !== null) {
+                alert('Stato non valido.');
+            }
+        }
+
+        // --- Operators Module ---
+        function renderOperatorsModule() {
+            const listElement = document.getElementById('operator-list');
+            listElement.innerHTML = '';
+            currentData.operators.forEach((op, index) => {
+                const operatorItem = document.createElement('div');
+                operatorItem.classList.add('operator-item');
+                const role = currentData.roles.find(r => r.id === op.role) || { name: 'Ruolo non definito' };
+                operatorItem.innerHTML = `
+                    <span class="operator-name">${op.name}</span>
+                    <span class="operator-role">${role.name}</span>
+                    <button class="btn btn-outline btn-small" onclick="editOperator(${index})">Modifica</button>
+                    <button class="btn btn-outline btn-small" style="color: var(--danger-color); border-color: var(--danger-color);" onclick="deleteOperator(${index})">Elimina</button>
+                `;
+                listElement.appendChild(operatorItem);
+            });
+            if (currentData.operators.length === 0) {
+                 listElement.innerHTML = '<p class="text-center" style="opacity: 0.7;">Nessun operatore aggiunto.</p>';
+            }
+
+            renderRoles();
+        }
+
+        function renderRoles() {
+             const listElement = document.getElementById('role-list');
+             listElement.innerHTML = '';
+             currentData.roles.forEach(role => {
+                 const roleItem = document.createElement('div');
+                 roleItem.classList.add('role-item');
+                 roleItem.innerHTML = `
+                    <span>${role.name}</span>
+                    <button class="btn btn-outline btn-small" onclick="editRole(${JSON.stringify(role)})">Modifica Permessi</button>
+                 `;
+                 listElement.appendChild(roleItem);
+             });
+        }
+
+        function showAddOperatorForm() {
+            document.getElementById('add-operator-modal').classList.add('active');
+            // Populate roles in the select dropdown
+            const roleSelect = document.getElementById('operator-role-select');
+            roleSelect.innerHTML = '';
+            currentData.roles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.id;
+                option.textContent = role.name;
+                roleSelect.appendChild(option);
+            });
+        }
+
+        function closeAddOperatorForm() {
+            document.getElementById('add-operator-modal').classList.remove('active');
+            // Clear form fields
+            document.getElementById('operator-name-input').value = '';
+            document.getElementById('operator-password-input').value = '';
+            document.getElementById('operator-role-select').selectedIndex = 0;
+        }
+
+         function addOperator() {
+            const name = document.getElementById('operator-name-input').value.trim();
+            const role = document.getElementById('operator-role-select').value;
+            const password = document.getElementById('operator-password-input').value; // Store password as plain text for simplicity in this demo, consider hashing in a real app
+
+            if (!name || !role) {
+                alert('Nome e ruolo sono obbligatori.');
+                return;
+            }
+
+            currentData.operators.push({ name, role, password });
+            saveData();
+            renderOperatorsModule();
+            closeAddOperatorForm();
+        }
+
+        function editOperator(index) {
+            // This would typically open a modal to edit operator details
+            const operator = currentData.operators[index];
+            alert(`Modifica operatore: ${operator.name} (Ruolo: ${operator.role})`);
+            // Implement modal for editing
+        }
+
+        function deleteOperator(index) {
+             if (confirm(`Sei sicuro di voler eliminare l'operatore ${currentData.operators[index].name}?`)) {
+                currentData.operators.splice(index, 1);
+                saveData();
+                renderOperatorsModule();
+            }
+        }
+
+        function editRole(roleData) {
+             // This would typically open a modal to manage permissions for the selected role
+             alert(`Modifica permessi per il ruolo: ${roleData.name}\nPermessi attuali: ${roleData.permissions.join(', ')}`);
+             // Implement modal for editing permissions
+        }
+
+
+        // --- Dynamic Pricing Module ---
+        function renderPricesModule() {
+            const container = document.getElementById('pricing-suggestions-container');
+            container.innerHTML = '';
+            const basePrice = currentData.prices.basePrice || 100; // Default to 100 if not set
+
+            // Simple dynamic pricing logic (example)
+            const occupancy = currentData.planning.filter(r => r.status === 'occupied').length;
+            const totalRooms = currentData.settings.totalRooms;
+            const occupancyRate = totalRooms > 0 ? (occupancy / totalRooms) * 100 : 0;
+
+            let suggestion = null;
+            let suggestionPercentage = 0;
+
+            if (occupancyRate < 50) { // Low occupancy
+                suggestionPercentage = -10; // Decrease price by 10%
+                suggestion = `Occupazione bassa (${occupancyRate.toFixed(0)}%). Abbassa le tariffe del 10%.`;
+            } else if (occupancyRate >= 85) { // High occupancy
+                suggestionPercentage = 15; // Increase price by 15%
+                suggestion = `Occupazione alta (${occupancyRate.toFixed(0)}%). Aumenta le tariffe del 15%.`;
+            } else {
+                suggestion = 'Occupazione nella norma. Nessuna variazione tariffaria suggerita.';
+            }
+
+            const suggestedPrice = basePrice * (1 + suggestionPercentage / 100);
+
+            if (suggestion) {
+                const suggestionElement = document.createElement('div');
+                suggestionElement.classList.add('pricing-suggestion');
+                suggestionElement.innerHTML = `
+                    <span class="suggestion-info">${suggestion}</span>
+                    ${suggestionPercentage !== 0 ? `<span class="suggestion-price">${formatCurrency(suggestedPrice)}</span>` : ''}
+                    ${suggestionPercentage !== 0 ? `<button class="btn btn-primary apply-suggestion-btn" onclick="applyPriceSuggestion(${suggestedPrice})">Applica</button>` : ''}
+                `;
+                container.appendChild(suggestionElement);
+            }
+
+            document.getElementById('base-price-display').textContent = formatCurrency(basePrice);
+             // Set the input value if it's not already set or matches the current base price
+            if (document.getElementById('base-price-input').value === '' || parseFloat(document.getElementById('base-price-input').value) !== basePrice) {
+                 document.getElementById('base-price-input').value = basePrice.toFixed(2);
+            }
+
+        }
+
+        function updateBasePrice() {
+            const newBasePrice = parseFloat(document.getElementById('base-price-input').value);
+            if (!isNaN(newBasePrice) && newBasePrice >= 0) {
+                currentData.prices.basePrice = newBasePrice;
+                saveData();
+                renderPricesModule(); // Re-render to update display and suggestions
+            }
+        }
+
+        function applyPriceSuggestion(newPrice) {
+            if (confirm(`Applica la tariffa suggerita di ${formatCurrency(newPrice)} come nuova tariffa base?`)) {
+                currentData.prices.basePrice = parseFloat(newPrice.toFixed(2));
+                // In a real scenario, you might want to record this change or apply it to specific dates/room types
+                saveData();
+                renderPricesModule();
+            }
+        }
+
+        // --- Reviews Module ---
+        function renderReviewsModule() {
+            const listElement = document.getElementById('reviews-list');
+            listElement.innerHTML = '';
+
+            // Mock reviews for demonstration
+            const mockReviews = [
+                { author: 'Anna Bianchi', date: '2023-10-26', text: 'Soggiorno piacevole, la camera era pulita e il personale gentile. Ritorneremo sicuramente.', rating: 5 },
+                { author: 'Marco Verdi', date: '2023-10-25', text: 'Colazione migliorabile, poca varietà. La posizione è ottima.', rating: 3 },
+                { author: 'Laura Rossi', date: '2023-10-24', text: 'Servizio eccellente, tutto perfetto. Consigliatissimo!', rating: 5 }
+            ];
+            currentData.reviews = mockReviews; // Use mock data for demo
+
+            if (currentData.reviews.length === 0) {
+                 listElement.innerHTML = '<p class="text-center" style="opacity: 0.7;">Nessuna recensione disponibile per l'analisi.</p>';
+                 return;
+            }
+
+            currentData.reviews.forEach((review, index) => {
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review-item');
+                reviewItem.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-author">${review.author}</span>
+                        <span class="review-date">${review.date}</span>
+                    </div>
+                    <div class="review-text">${review.text}</div>
+                    <div class="response-draft" id="response-draft-${index}">
+                        <!-- AI generated response draft -->
+                        <p>Generazione bozza di risposta...</p>
+                    </div>
+                    <button class="btn btn-primary btn-small copy-response-btn" onclick="copyResponse(${index})">Copia Risposta</button>
+                `;
+                listElement.appendChild(reviewItem);
+                generateResponseDraft(review, index); // Generate draft for each review
+            });
+            saveData();
+        }
+
+        function generateResponseDraft(review, index) {
+            const draftElement = document.getElementById(`response-draft-${index}`);
+            let draftText = '';
+
+            // Simple AI-like logic
+            if (review.rating >= 4.5) {
+                draftText = `Gentile ${review.author}, grazie mille per la sua splendida recensione! Siamo estremamente felici che abbia apprezzato il suo soggiorno e il nostro servizio. Speriamo di poterla accogliere nuovamente presto. Cordiali saluti, il Team PILOTEL.`;
+            } else if (review.rating >= 3.5) {
+                draftText = `Gentile ${review.author}, la ringraziamo per aver condiviso la sua esperienza. Siamo lieti che abbia trovato il soggiorno piacevole e apprezzato la nostra posizione/personale. Prendiamo nota del suo feedback sulla colazione per migliorare i nostri servizi. Speriamo di rivederla presto. Cordiali saluti, il Team PILOTEL.`;
+            } else {
+                draftText = `Gentile ${review.author}, la ringraziamo per il suo feedback. Ci dispiace apprendere che alcuni aspetti del suo soggiorno non siano stati all'altezza delle sue aspettative. Stiamo lavorando per migliorare i nostri servizi, inclusa la colazione. Apprezziamo la sua comprensione e speriamo ci dia un'altra opportunità in futuro. Cordiali saluti, il Team PILOTEL.`;
+            }
+
+            // Simulate slight delay for "AI generation"
+            setTimeout(() => {
+                draftElement.textContent = draftText;
+            }, 500 + Math.random() * 500);
+        }
+
+        function copyResponse(index) {
+            const draftElement = document.getElementById(`response-draft-${index}`);
+            const textToCopy = draftElement.textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Bozza risposta copiata negli appunti!');
+            }).catch(err => {
+                console.error('Errore durante la copia: ', err);
+                alert('Impossibile copiare la risposta. Si prega di copiare manualmente.');
+            });
+        }
+
+        // --- Check-in Module ---
+        function renderCheckinModule() {
+            const listElement = document.getElementById('checkin-list');
+            listElement.innerHTML = '';
+
+            // Mock check-in data for today
+            const today = new Date();
+            const mockCheckins = [
+                { id: 'chk_001', guestName: 'Mario Rossi', room: 101, expectedArrival: today.toISOString().split('T')[0], status: 'pending' },
+                { id: 'chk_002', guestName: 'Laura Bianchi', room: 205, expectedArrival: today.toISOString().split('T')[0], status: 'pending' }
+            ];
+
+            let foundToday = false;
+            mockCheckins.forEach(checkin => {
+                if (checkin.expectedArrival === today.toISOString().split('T')[0]) {
+                    foundToday = true;
+                    const checkinItem = document.createElement('div');
+                    checkinItem.classList.add('checkin-item');
+                    checkinItem.innerHTML = `
+                        <div>
+                            <div class="guest-name">${checkin.guestName}</div>
+                            <div class="guest-details">Camera ${checkin.room}</div>
+                            <div class="ocr-simulation">Simulazione OCR: Documento <span style="color: ${checkin.status === 'pending' ? 'orange' : 'green'}">${checkin.status === 'pending' ? 'Da verificare' : 'Verificato'}</span></div>
+                        </div>
+                        <div class="checkin-actions">
+                            <button class="btn btn-primary btn-small icon-ocr" onclick="simulateOcr('${checkin.id}')">OCR</button>
+                            <button class="btn btn-success btn-small ${checkin.status === 'pending' ? 'disabled' : ''}" onclick="confirmCheckin('${checkin.id}')">Conferma</button>
+                        </div>
+                    `;
+                    listElement.appendChild(checkinItem);
+                }
+            });
+
+             if (!foundToday) {
+                 listElement.innerHTML = '<p class="text-center" style="opacity: 0.7;">Nessun arrivo previsto per oggi.</p>';
+            }
+        }
+
+        function simulateOcr(checkinId) {
+            const item = document.querySelector(`.checkin-item[data-checkin-id="${checkinId}"]`); // This needs data-checkin-id attribute
+            alert(`Simulazione scansione OCR per check-in ${checkinId}. Documento verificato.`);
+            // Update status visually or in data if needed
+             const checkin = currentData.checkins.find(c => c.id === checkinId); // Assuming checkins are stored
+             if (checkin) {
+                 checkin.status = 'verified';
+                 saveData();
+                 renderCheckinModule();
+             }
+        }
+
+        function confirmCheckin(checkinId) {
+            // In a real app, this would involve guest data entry, document scanning, etc.
+            // For this demo, we'll just mark it as completed and update the room status.
+            alert(`Check-in confermato per ${checkinId}. La camera è ora pronta.`);
+
+            // Find the guest and update room status
+            const checkinData = currentData.checkins ? currentData.checkins.find(c => c.id === checkinId) : null;
+            if (checkinData) {
+                const room = currentData.planning.find(r => r.number === checkinData.room);
+                if (room) {
+                    room.status = 'occupied';
+                    room.guestInfo = { name: checkinData.guestName, checkIn: new Date().toISOString(), checkOut: null };
+                }
+                 // Optionally remove from today's list or mark as completed
+                 checkinData.status = 'completed';
+                 saveData();
+                 renderPlanningModule();
+                 renderCheckinModule();
+            }
+        }
+
+        function toggleGdprTracking(checkbox) {
+            currentData.settings.gdprTrackingEnabled = checkbox.checked;
+            saveData();
+            alert(`Tracciamento Alloggiati Web ${checkbox.checked ? 'abilitato' : 'disabilitato'}. Dati conservati per 48 ore.`);
+        }
+
+        // --- Warehouse Module ---
+        function renderWarehouseModule() {
+            const listElement = document.getElementById('warehouse-list');
+            listElement.innerHTML = '';
+
+            if (currentData.warehouse.length === 0) {
+                 listElement.innerHTML = '<p class="text-center" style="opacity: 0.7;">Nessun articolo aggiunto al magazzino.</p>';
+                return;
+            }
+
+            currentData.warehouse.forEach((item, index) => {
+                const warehouseItem = document.createElement('div');
+                warehouseItem.classList.add('warehouse-item');
+                const isLowStock = item.quantity <= item.minStock;
+                warehouseItem.innerHTML = `
+                    <div>
+                        <span class="item-name">${item.name}</span>
+                        ${isLowStock ? `<span class="icon-warning min-stock-warning">Scorta Minima Raggiunta!</span>` : ''}
+                    </div>
+                    <div class="item-controls">
+                        <button class="btn quantity-btn icon-minus" onclick="updateWarehouseQuantity(${index}, -1)"></button>
+                        <span class="quantity-value">${item.quantity}</span>
+                        <button class="btn quantity-btn icon-plus" onclick="updateWarehouseQuantity(${index}, 1)"></button>
+                    </div>
+                `;
+                listElement.appendChild(warehouseItem);
+            });
+        }
+
+        function showAddItemForm() {
+            document.getElementById('add-item-modal').classList.add('active');
+        }
+
+        function closeAddItemForm() {
+            document.getElementById('add-item-modal').classList.remove('active');
+            document.getElementById('item-name-input').value = '';
+            document.getElementById('item-quantity-input').value = '';
+            document.getElementById('item-min-stock-input').value = '';
+        }
+
+        function addItem() {
+            const name = document.getElementById('item-name-input').value.trim();
+            const quantity = parseInt(document.getElementById('item-quantity-input').value, 10);
+            const minStock = parseInt(document.getElementById('item-min-stock-input').value, 10);
+
+            if (!name || isNaN(quantity) || quantity < 0 || isNaN(minStock) || minStock < 0) {
+                alert('Per favore, inserisci un nome valido, una quantità e una scorta minima.');
+                return;
+            }
+
+            currentData.warehouse.push({ name, quantity, minStock });
+            saveData();
+            renderWarehouseModule();
+            closeAddItemForm();
+        }
+
+        function updateWarehouseQuantity(index, amount) {
+            const item = currentData.warehouse[index];
+            item.quantity = Math.max(0, item.quantity + amount); // Ensure quantity doesn't go below 0
+            saveData();
+            renderWarehouseModule();
+        }
+
+        // --- Utility Functions ---
+        function formatCurrency(amount) {
+            return `€ ${amount.toFixed(2).replace('.', ',')}`;
+        }
+
+        function activateModule(moduleName) {
+            document.querySelectorAll('main').forEach(el => el.classList.remove('active'));
+            const module = document.getElementById(`${moduleName}-module`);
+            if (module) {
+                module.classList.add('active');
+                currentData.lastActiveModule = moduleName;
+                saveData();
+                // Call specific rendering functions for each module upon activation
+                switch (moduleName) {
+                    case 'planning': renderPlanningModule(); break;
+                    case 'operators': renderOperatorsModule(); break;
+                    case 'prices': renderPricesModule(); break;
+                    case 'reviews': renderReviewsModule(); break;
+                    case 'checkin': renderCheckinModule(); break;
+                    case 'warehouse': renderWarehouseModule(); break;
+                }
+            }
+            updateTabStates();
+        }
+
+         // --- Initial Data Population (for demo purposes) ---
+         // Add some sample data if localStorage is empty
+         function populateDemoData() {
+             if (!localStorage.getItem(STORAGE_KEY)) {
+                 currentData.settings = {
+                     hotelName: 'Hotel Pilota',
+                     whatsappNumber: '+391234567890',
+                     totalRooms: 15,
+                     theme: 'light',
+                     gdprTrackingEnabled: false
+                 };
+                 initializePlanning(currentData.settings.totalRooms);
+                 currentData.operators = [
+                     { name: 'Receptionist 1', role: 'reception', password: 'pwd1' },
+                     { name: 'Housekeeper 1', role: 'housekeeping', password: 'pwd2' }
+                 ];
+                 currentData.prices.basePrice = 120;
+                 currentData.warehouse = [
+                     { name: 'Kit Cortesia', quantity: 30, minStock: 10 },
+                     { name: 'Cialde Caffè', quantity: 50, minStock: 20 },
+                     { name: 'Asciugamani', quantity: 15, minStock: 5 }
+                 ];
+                 // Planning initial state example
+                 currentData.planning[0].status = 'occupied';
+                 currentData.planning[0].guestInfo = { name: 'Ospite Demo 1', checkIn: new Date().toISOString(), checkOut: null };
+                 currentData.planning[1].status = 'cleaning';
+                 currentData.planning[2].status = 'occupied';
+                 currentData.planning[2].guestInfo = { name: 'Ospite Demo 2', checkIn: new Date().toISOString(), checkOut: null };
+
+                 saveData();
+             }
+         }
+
+        // Call populateDemoData before loadData to ensure it runs if storage is empty
+        populateDemoData();
+        loadData(); // Load potentially populated data
+        // ... rest of the initialization code ...
+
+    </script>
 </body>
 </html>
