@@ -138,8 +138,6 @@ main {
   overflow-y: auto;
   padding-bottom: 95px;
 }
-.view { display: none; }
-.view.active { display: block; }
 .screen { display: none; }
 .screen.active { display: block; }
 
@@ -254,15 +252,6 @@ nav.tabbar button {
 }
 nav.tabbar button svg { width: 16px; height: 16px; fill: currentColor; }
 nav.tabbar button[aria-selected="true"] { color: var(--brand); background: var(--brandsoft); }
-
-textarea, input, select {
-  width: 100%; font: inherit; padding: 9px 12px; border-radius: 10px;
-  border: 1px solid var(--line); background: var(--bg); color: var(--ink); margin-top: 6px; font-size: 0.86rem;
-}
-textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
-
-.onboarding-step { display: none; }
-.onboarding-step.active { display: block; }
 </style>
 </head>
 <body data-theme="dark">
@@ -271,143 +260,118 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
   <header>
     <div class="brand-title"><span></span>PILOTEL</div>
     <div class="header-actions">
-      <div class="hotel-badge" id="header-hotel-badge">Setup</div>
-      <button class="icon-btn" onclick="resetSetup()" title="Riconfigura Struttura">⚙️</button>
-      <button class="icon-btn" onclick="toggleTheme()" title="Tema">☀️</button>
+      <div class="hotel-badge" id="header-hotel-badge">Hotel Villa Rosa & Spa</div>
+      <button class="icon-btn" onclick="toggleTheme()" title="Cambia Tema">☀️</button>
     </div>
   </header>
 
   <main>
-    <!-- ONBOARDING / CONFIGURAZIONE -->
-    <div id="view-onboarding" class="view">
-      <div class="card onboarding-step active" id="step-1">
-        <span class="tag t-ok">PILOTEL PMS · Enterprise Core</span>
-        <h2>Configurazione Iniziale</h2>
-        <p class="why">Inserisci i parametri reali della struttura per avviare il gestionale autonomo ad alte prestazioni.</p>
-        
-        <label style="font-size:0.8rem; font-weight:700; color:var(--mute);">Nome della Struttura *</label>
-        <input type="text" id="input-hotel-name" value="Hotel Villa Rosa & Spa" placeholder="Es. Hotel Villa Rosa & Spa">
-        
-        <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">WhatsApp Briefing 07:30 *</label>
-        <input type="text" id="input-phone" value="+39 349 1234567">
+    <!-- TAB 1: BRIEFING & PLANNING PMS -->
+    <div id="screen-brief" class="screen active">
+      <div class="wa-box">
+        <p id="wa-greeting">☕ Buongiorno Direttore di Hotel Villa Rosa & Spa!</p>
+        <div class="row"><span>Occupazione Camere</span><b id="kpi-rooms">9 su 12 (75%)</b></div>
+        <div class="row"><span>Tariffa Media (ADR)</span><b id="kpi-adr">€135</b></div>
+        <div class="row"><span>Incasso Totale Previsto</span><b id="kpi-rev">€1.215</b></div>
+        <div class="time">07:30 ✓✓ (Briefing WhatsApp Inviato)</div>
+      </div>
 
-        <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">Numero Totale Camere *</label>
-        <input type="number" id="input-total-rooms" value="12" min="1" max="150">
-
-        <button class="btn" style="width:100%; margin-top:16px;" onclick="initializeSystem()">Avvia Gestionale Pro 🚀</button>
+      <div class="card">
+        <h2>Planning Camere in Tempo Reale</h2>
+        <p class="why">Griglia di stato delle camere sincronizzata con il database nativo.</p>
+        
+        <div class="planning-grid" id="planning-matrix">
+          <!-- Generato via JS -->
+        </div>
       </div>
     </div>
 
-    <!-- DASHBOARD OPERATIVA -->
-    <div id="view-dashboard" class="view active">
-      
-      <!-- TAB 1: BRIEFING & PLANNING PMS -->
-      <div id="screen-brief" class="screen active">
-        <div class="wa-box">
-          <p id="wa-greeting">☕ Buongiorno Direttore!</p>
-          <div class="row"><span>Occupazione Camere</span><b id="kpi-rooms">--</b></div>
-          <div class="row"><span>Tariffa Media (ADR)</span><b id="kpi-adr">€135</b></div>
-          <div class="row"><span>Incasso Totale Previsto</span><b id="kpi-rev">--</b></div>
-          <div class="time">07:30 ✓✓ (Briefing WhatsApp Inviato)</div>
-        </div>
-
-        <div class="card">
-          <h2>Planning Camere in Tempo Reale</h2>
-          <p class="why">Griglia di stato delle camere sincronizzata con il database nativo.</p>
-          
-          <div class="planning-grid" id="planning-matrix">
-            <!-- Generato via JS -->
+    <!-- TAB 2: OPERATORI & PERMESSI -->
+    <div id="screen-operators" class="screen">
+      <div class="card">
+        <span class="tag t-ok">Gestione Personale & Ruoli</span>
+        <h2>Operatori Attivi</h2>
+        <p class="why">Configura gli accessi per reception, piani e amministrazione.</p>
+        
+        <div class="row">
+          <div>
+            <div style="font-weight:700;">Mario Rossi</div>
+            <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Capo Ricevimento (Full Access)</div>
           </div>
+          <span class="tag t-ok">Attivo</span>
         </div>
-      </div>
 
-      <!-- TAB 2: OPERATORI & PERMESSI -->
-      <div id="screen-operators" class="screen">
-        <div class="card">
-          <span class="tag t-ok">Gestione Personale & Ruoli</span>
-          <h2>Operatori Attivi</h2>
-          <p class="why">Configura gli accessi per reception, piani e amministrazione.</p>
-          
-          <div class="row">
-            <div>
-              <div style="font-weight:700;">Mario Rossi</div>
-              <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Capo Ricevimento (Full Access)</div>
-            </div>
-            <span class="tag t-ok">Attivo</span>
+        <div class="row">
+          <div>
+            <div style="font-weight:700;">Laura Bianchi</div>
+            <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Housekeeping / Piani</div>
           </div>
+          <span class="tag t-ok">Attivo</span>
+        </div>
 
-          <div class="row">
-            <div>
-              <div style="font-weight:700;">Laura Bianchi</div>
-              <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Housekeeping / Piani</div>
-            </div>
-            <span class="tag t-ok">Attivo</span>
+        <div class="row">
+          <div>
+            <div style="font-weight:700;">Giuseppe Verdi</div>
+            <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Amministrazione & Fatturazione</div>
           </div>
-
-          <div class="row">
-            <div>
-              <div style="font-weight:700;">Giuseppe Verdi</div>
-              <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Amministrazione & Fatturazione</div>
-            </div>
-            <span class="tag t-ok">Attivo</span>
-          </div>
-
-          <button class="btn" style="margin-top:12px;" onclick="addOperator()">+ Aggiungi Nuovo Operatore</button>
+          <span class="tag t-ok">Attivo</span>
         </div>
-      </div>
 
-      <!-- TAB 3: PRICING & TARIFFE -->
-      <div id="screen-pricing" class="screen">
-        <div class="card" id="tip-1">
-          <span class="tag t-amb">Dynamic Pricing Intelligente</span>
-          <h2>Weekend: adegua tariffa camere libere da €105 a €125</h2>
-          <p class="why">Domanda elevata registrata sul planning nativo. Aggiorna il listino interno con un clic.</p>
-          <div class="btns">
-            <button class="btn" onclick="resolveTip('tip-1', true)">Applica al Listino</button>
-            <button class="btn sec" onclick="resolveTip('tip-1', false)">Ignora</button>
-          </div>
-        </div>
+        <button class="btn" style="margin-top:12px;" onclick="addOperator()">+ Aggiungi Nuovo Operatore</button>
       </div>
-
-      <!-- TAB 4: RECENSIONI AI -->
-      <div id="screen-reviews" class="screen">
-        <div class="card" id="rev-card-1">
-          <span class="tag t-amb">Assistente IA · Reputazione</span>
-          <div class="row"><span>Marco V. (Camera 102)</span><span style="color:var(--amber)">★★★☆☆</span></div>
-          <p class="why" style="margin-top:6px; font-style:italic;">"Hotel molto pulito e personale cortese. Unica nota: Wi-Fi debole al secondo piano."</p>
-          <div style="font-size:0.82rem; background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); color:var(--mute); margin-top:8px;">
-            "Gentile Marco, la ringraziamo per il feedback! Abbiamo già provveduto a potenziare il segnale Wi-Fi. La aspettiamo presto."
-          </div>
-          <button class="btn" style="width:100%; margin-top:10px;" onclick="approveReview('rev-card-1')">Pubblica Risposta</button>
-        </div>
-      </div>
-
-      <!-- TAB 5: CHECK-IN & GDPR -->
-      <div id="screen-checkin" class="screen">
-        <div class="card">
-          <span class="tag t-ok">Smart Check-in & Alloggiati Web</span>
-          <h2>Arrivi di Oggi</h2>
-          <p class="why">Scansione OCR con consenso GDPR tracciato e retention dati rigorosa a 48 ore.</p>
-          <div class="row"><span>Rossi Mario (Camera 102)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
-          <div class="row"><span>Bianchi Anna (Camera 105)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
-          <button class="btn" style="margin-top:10px;" onclick="syncAlloggiati()">Invia Schedine alla Polizia</button>
-        </div>
-      </div>
-
-      <!-- TAB 6: MAGAZZINO -->
-      <div id="screen-ops" class="screen">
-        <div class="card">
-          <span class="tag t-ok">Inventario Magazzino Nativo</span>
-          <h2>Controllo Scorte</h2>
-          <div id="inventory-list"></div>
-          <button class="btn" style="margin-top:12px;" onclick="triggerOrder()">Genera Ordine Fornitore</button>
-        </div>
-      </div>
-
     </div>
+
+    <!-- TAB 3: PRICING & TARIFFE -->
+    <div id="screen-pricing" class="screen">
+      <div class="card" id="tip-1">
+        <span class="tag t-amb">Dynamic Pricing Intelligente</span>
+        <h2>Weekend: adegua tariffa camere libere da €105 a €125</h2>
+        <p class="why">Domanda elevata registrata sul planning nativo. Aggiorna il listino interno con un clic.</p>
+        <div class="btns">
+          <button class="btn" onclick="resolveTip('tip-1', true)">Applica al Listino</button>
+          <button class="btn sec" onclick="resolveTip('tip-1', false)">Ignora</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: RECENSIONI AI -->
+    <div id="screen-reviews" class="screen">
+      <div class="card" id="rev-card-1">
+        <span class="tag t-amb">Assistente IA · Reputazione</span>
+        <div class="row"><span>Marco V. (Camera 102)</span><span style="color:var(--amber)">★★★☆☆</span></div>
+        <p class="why" style="margin-top:6px; font-style:italic;">"Hotel molto pulito e personale cortese. Unica nota: Wi-Fi debole al secondo piano."</p>
+        <div style="font-size:0.82rem; background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); color:var(--mute); margin-top:8px;">
+          "Gentile Marco, la ringraziamo per il feedback! Abbiamo già provveduto a potenziare il segnale Wi-Fi. La aspettiamo presto."
+        </div>
+        <button class="btn" style="width:100%; margin-top:10px;" onclick="approveReview('rev-card-1')">Pubblica Risposta</button>
+      </div>
+    </div>
+
+    <!-- TAB 5: CHECK-IN & GDPR -->
+    <div id="screen-checkin" class="screen">
+      <div class="card">
+        <span class="tag t-ok">Smart Check-in & Alloggiati Web</span>
+        <h2>Arrivi di Oggi</h2>
+        <p class="why">Scansione OCR con consenso GDPR tracciato e retention dati rigorosa a 48 ore.</p>
+        <div class="row"><span>Rossi Mario (Camera 102)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
+        <div class="row"><span>Bianchi Anna (Camera 105)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
+        <button class="btn" style="margin-top:10px;" onclick="syncAlloggiati()">Invia Schedine alla Polizia</button>
+      </div>
+    </div>
+
+    <!-- TAB 6: MAGAZZINO -->
+    <div id="screen-ops" class="screen">
+      <div class="card">
+        <span class="tag t-ok">Inventario Magazzino Nativo</span>
+        <h2>Controllo Scorte</h2>
+        <div id="inventory-list"></div>
+        <button class="btn" style="margin-top:12px;" onclick="triggerOrder()">Genera Ordine Fornitore</button>
+      </div>
+    </div>
+
   </main>
 
-  <nav class="tabbar" id="app-tabbar" role="tablist" style="display:flex;">
+  <nav class="tabbar" id="app-tabbar" role="tablist">
     <button role="tab" aria-selected="true" onclick="switchTab('brief')">
       <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
       Planning
@@ -436,7 +400,6 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
 </div>
 
 <script>
-let config = { hotelName: "Hotel Villa Rosa & Spa", totalRooms: 12 };
 let inventoryItems = [
   { id: 1, name: "Kit Cortesia Bagno", qty: 24, min: 30 },
   { id: 2, name: "Cialde Caffè Camera", qty: 42, min: 50 },
@@ -444,41 +407,13 @@ let inventoryItems = [
 ];
 
 window.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('pilotel_enterprise_config');
   const savedInv = localStorage.getItem('pilotel_enterprise_inv');
-  if(savedInv) inventoryItems = JSON.parse(savedInv);
-  if(saved) {
-    config = JSON.parse(saved);
+  if(savedInv) {
+    try { inventoryItems = JSON.parse(savedInv); } catch(e) {}
   }
-  bootDashboard();
-});
-
-function initializeSystem() {
-  const nameVal = document.getElementById('input-hotel-name').value.trim() || "Hotel Villa Rosa & Spa";
-  const roomsVal = parseInt(document.getElementById('input-total-rooms').value) || 12;
-  
-  config = { hotelName: nameVal, totalRooms: roomsVal };
-  localStorage.setItem('pilotel_enterprise_config', JSON.stringify(config));
-  bootDashboard();
-}
-
-function bootDashboard() {
-  document.getElementById('header-hotel-badge').textContent = config.hotelName;
-  document.getElementById('wa-greeting').textContent = `☕ Buongiorno Direttore di ${config.hotelName}!`;
-
-  const occupied = Math.round(config.totalRooms * 0.75);
-  const adr = 135;
-  const rev = occupied * adr;
-  document.getElementById('kpi-rooms').textContent = `${occupied} su ${config.totalRooms} (${Math.round((occupied/config.totalRooms)*100)}%)`;
-  document.getElementById('kpi-rev').textContent = `€${rev.toLocaleString('it-IT')}`;
-
   renderPlanning();
   renderInventory();
-
-  document.getElementById('view-onboarding').classList.remove('active');
-  document.getElementById('view-dashboard').classList.add('active');
-  document.getElementById('app-tabbar').style.display = 'flex';
-}
+});
 
 function renderPlanning() {
   const grid = document.getElementById('planning-matrix');
@@ -490,7 +425,7 @@ function renderPlanning() {
     <div class="p-cell header">Dom</div>
   `;
 
-  for(let i = 1; i <= Math.min(config.totalRooms, 8); i++) {
+  for(let i = 1; i <= 8; i++) {
     const isBooked1 = i % 2 === 0;
     const isBooked2 = i % 3 === 0;
     grid.innerHTML += `
@@ -533,15 +468,8 @@ function updateQty(id, delta) {
   }
 }
 
-function resetSetup() {
-  document.getElementById('view-dashboard').classList.remove('active');
-  document.getElementById('view-onboarding').classList.add('active');
-  document.getElementById('app-tabbar').style.display = 'none';
-  document.getElementById('header-hotel-badge').textContent = "Setup";
-}
-
 function switchTab(tabId) {
-  document.querySelectorAll('#view-dashboard .screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('main .screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + tabId).classList.add('active');
   document.querySelectorAll('nav.tabbar button').forEach(t => {
     t.setAttribute('aria-selected', t.getAttribute('onclick').includes(tabId) ? 'true' : 'false');
@@ -570,7 +498,7 @@ function triggerOrder() {
 }
 
 function addOperator() {
-  alert('Funzionalità di aggiunta operatore rapido aperta.');
+  alert('Finestra di inserimento nuovo operatore aperta.');
 }
 </script>
 </body>
