@@ -1,5 +1,4 @@
-
-tml>
+<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
@@ -322,39 +321,40 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">Numero WhatsApp per Briefing 07:30</label>
         <input type="text" id="input-phone" value="+39 349 1234567" placeholder="+39 ...">
 
-        <button class="btn" style="width:100%; margin-top:16px;" onclick="nextOnboardingStep(2)">Avanti: Connessione Partner & Privacy →</button>
+        <button class="btn" style="width:100%; margin-top:16px;" onclick="nextOnboardingStep(2)">Avanti: Connessione Partner & Credenziali →</button>
       </div>
 
       <div class="card onboarding-step" id="step-2">
-        <span class="tag t-amb">Passo 2 di 2 · Integrazione Operatori & GDPR</span>
-        <h2>Connessione Sistemi & Partner</h2>
-        <p class="why">Collega i tuoi operatori di riferimento per ogni categoria o lascia il default di settore.</p>
+        <span class="tag t-amb">Passo 2 di 2 · Integrazione & Credenziali PMS</span>
+        <h2>Configura Gestionale (PMS)</h2>
+        <p class="why">Usa il partner di default per una prova rapida oppure inserisci le tue credenziali reali per collegare il tuo hotel.</p>
         
-        <label style="font-size:0.8rem; font-weight:700; color:var(--brand);">1. Booking & Camere (PMS / Channel Manager)</label>
-        <select id="select-pms" onchange="updatePmsPreview()">
-          <option value="Octorate">Octorate PMS (Partner Default)</option>
-          <option value="WuBook">WuBook</option>
-          <option value="Cloudbeds">Cloudbeds</option>
-          <option value="Mews">Mews</option>
-          <option value="">Nessuno (Assegna Partner Standard: Octorate)</option>
+        <label style="font-size:0.8rem; font-weight:700; color:var(--brand);">Gestionale / Channel Manager</label>
+        <select id="select-pms" onchange="togglePmsInputs()">
+          <option value="">Usa Partner Default (Octorate)</option>
+          <option value="Octorate">Octorate (Collega il tuo account)</option>
+          <option value="WuBook">WuBook (Collega il tuo account)</option>
+          <option value="Cloudbeds">Cloudbeds (Collega il tuo account)</option>
+          <option value="Mews">Mews (Collega il tuo account)</option>
+          <option value="Altro PMS">Altro PMS (API personalizzata)</option>
         </select>
 
-        <label style="font-size:0.8rem; font-weight:700; color:var(--brand); display:block; margin-top:10px;">2. Check-in & Schedine PS (Alloggiati Web)</label>
-        <select id="select-checkin">
-          <option value="Vikey">Vikey (Partner Default)</option>
-          <option value="Kross.Booking">Kross.Booking</option>
-          <option value="">Nessuno (Assegna Partner Standard: Vikey)</option>
-        </select>
+        <!-- BOX CREDENZIALI PMS REALE (COMPARE SE SELEZIONATO) -->
+        <div id="pms-credentials-box" style="display:none; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:12px; margin-top:10px;">
+          <label style="font-size:0.75rem; font-weight:700; color:var(--mute);">ID Struttura / Hotel ID</label>
+          <input type="text" id="input-hotel-id" placeholder="Es. hotel_id_9921" style="margin-top:2px; margin-bottom:8px;">
 
-        <label style="font-size:0.8rem; font-weight:700; color:var(--brand); display:block; margin-top:10px;">3. Reputazione & Recensioni (IA Maps)</label>
-        <select id="select-reviews">
-          <option value="TrustYou">TrustYou (Partner Default)</option>
-          <option value="ReviewPro">ReviewPro</option>
-          <option value="">Nessuno (Assegna Partner Standard: TrustYou)</option>
-        </select>
-        
+          <label style="font-size:0.75rem; font-weight:700; color:var(--mute);">Chiave API / Token di Accesso</label>
+          <input type="text" id="input-api-token" placeholder="Incolla qui il token segreto..." style="margin-top:2px;">
+        </div>
+
+        <label style="font-size:0.8rem; font-weight:700; color:var(--brand); display:block; margin-top:12px;">Check-in & Recensioni (Partner Associati)</label>
+        <div style="font-size:0.82rem; color:var(--mute); background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); margin-top:4px;">
+          ✓ Vikey (Smart Check-in) & TrustYou (Recensioni IA) attivi di default.
+        </div>
+
         <div style="background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px; margin-top:12px; font-size:0.82rem; color:var(--mute);">
-          <b>Stato Integrazione:</b> <span id="api-status-text" style="color:var(--ok);">✓ Operatori partner sincronizzati correttamente</span>
+          <b>Stato Sistema:</b> <span id="api-status-text" style="color:var(--ok);">✓ Modalità Demo Pronta (Partner Standard)</span>
         </div>
 
         <div style="margin: 12px 0 4px; font-size:0.82rem;">
@@ -387,7 +387,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         <div class="card">
           <h2>Rilievi Operativi IA & Partner</h2>
           <ul style="margin:0; padding-left:18px; font-size:0.9rem; color:var(--mute);">
-            <li id="pms-sync-note" style="margin-bottom:6px;">Sincronizzato in tempo reale con Octorate PMS. 6 arrivi previsti tra le 15:00 e le 18:00.</li>
+            <li id="pms-sync-note" style="margin-bottom:6px;">Sincronizzato in tempo reale con Octorate. 6 arrivi previsti tra le 15:00 e le 18:00.</li>
             <li>Scorte kit cortesia sotto soglia sicurezza (Partner: HQ Food & Beverage).</li>
           </ul>
         </div>
@@ -451,10 +451,10 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         <div class="card">
           <span class="tag t-amb">Conformità GDPR & Privacy</span>
           <h2>Retention Dati & Audit Log Attivo</h2>
-          <p class="why">In conformità alla scelta effettuata in configurazione, i documenti d'identità temporanei vengono eliminati automaticamente dopo 48 ore.</p>
+          <p class="why">I documenti d'identità temporanei vengono eliminati automaticamente dopo 48 ore in conformità alle norme di Pubblica Sicurezza.</p>
           <div class="row"><span>Consenso Marketing Registrato</span><b>68% degli ospiti</b></div>
           <div class="row" style="margin-bottom:10px;"><span>Registro Audit Log Accessi</span><b style="color:var(--ok)">Attivo e protetto</b></div>
-          <button class="btn sec" onclick="alert('Registro Audit Log: Accesso amministratore registrato.')">Visualizza Log Accessi</button>
+          <button class="btn sec" onclick="openAuditLog()">Visualizza Log Accessi</button>
         </div>
       </div>
 
@@ -522,9 +522,9 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
 
 <script>
 let globalHotelName = "Hotel Villa Rosa & Spa";
-let activePms = "Octorate";
-let activeCheckin = "Vikey";
-let activeReviews = "TrustYou";
+let activePms = "Octorate (Partner Default)";
+let activeCheckin = "Vikey (Partner Default)";
+let activeReviews = "TrustYou (Partner Default)";
 
 function nextOnboardingStep(stepNum) {
   document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
@@ -535,25 +535,31 @@ function nextOnboardingStep(stepNum) {
   }
 }
 
-function updatePmsPreview() {
+function togglePmsInputs() {
   const pmsVal = document.getElementById('select-pms').value;
-  const partnerName = pmsVal ? pmsVal : "Octorate (Partner Default)";
-  document.getElementById('api-status-text').textContent = `✓ Operatore ${partnerName} sincronizzato`;
+  const box = document.getElementById('pms-credentials-box');
+  if(pmsVal !== "") {
+    box.style.display = "block";
+    document.getElementById('api-status-text').textContent = `⚡ Connessione ${pmsVal} (Inserisci i tuoi codici API)`;
+  } else {
+    box.style.display = "none";
+    document.getElementById('api-status-text').textContent = `✓ Modalità Demo Pronta (Partner Standard Octorate)`;
+  }
 }
 
 function completeOnboarding() {
   const nameVal = document.getElementById('input-hotel-name').value.trim();
   if(nameVal) globalHotelName = nameVal;
   
-  // Assegnazione operatori reali con fallback automatico sui partner predefiniti
-  let pmsInput = document.getElementById('select-pms').value;
-  activePms = pmsInput ? pmsInput : "Octorate (Partner Default)";
+  let pmsSelect = document.getElementById('select-pms').value;
+  let hotelId = document.getElementById('input-hotel-id').value.trim();
+  let apiToken = document.getElementById('input-api-token').value.trim();
 
-  let checkinInput = document.getElementById('select-checkin').value;
-  activeCheckin = checkinInput ? checkinInput : "Vikey (Partner Default)";
-
-  let reviewsInput = document.getElementById('select-reviews').value;
-  activeReviews = reviewsInput ? reviewsInput : "TrustYou (Partner Default)";
+  if(pmsSelect !== "") {
+    activePms = (hotelId || apiToken) ? `${pmsSelect} (Hotel ID: ${hotelId || 'N/D'})` : `${pmsSelect} (Connesso)`;
+  } else {
+    activePms = "Octorate (Partner Default)";
+  }
   
   const gdprChecked = document.getElementById('check-gdpr').checked;
   if(!gdprChecked) {
@@ -564,8 +570,6 @@ function completeOnboarding() {
   document.getElementById('header-hotel-badge').textContent = globalHotelName;
   document.getElementById('wa-greeting').textContent = `☕ Buongiorno Direttore di ${globalHotelName}! Ecco il briefing sincronizzato via ${activePms}.`;
   document.getElementById('pms-sync-note').textContent = `Sincronizzato in tempo reale tramite ${activePms}. 6 arrivi previsti tra le 15:00 e le 18:00.`;
-  document.getElementById('review-partner-tag').textContent = `${activeReviews} AI · Da Approvare`;
-  document.getElementById('checkin-partner-tag').textContent = `${activeCheckin} Smart Check-in & Alloggiati Web`;
 
   document.getElementById('view-onboarding').classList.remove('active');
   document.getElementById('view-dashboard').classList.add('active');
@@ -596,12 +600,12 @@ function toggleTheme() {
 function resolveTip(cardId, accepted) {
   const card = document.getElementById(cardId);
   card.style.opacity = '0.6';
-  card.innerHTML = `<span class="tag t-ok">Aggiornato</span><h2>${accepted ? `Modifica inviata a ${activePms} ✓` : 'Consiglio ignorato'}</h2><p class="why">L'azione è stata registrata nel registro audit log.</p>`;
+  card.innerHTML = `<span class="tag t-ok">Aggiornato</span><h2>${accepted ? `Modifica inviata a ${activePms} ✓` : 'Consiglio ignorato'}</h2><p class="why">L'azione è stata registrata nel registro audit log protetto.</p>`;
 }
 
 function approveReview(cardId) {
   const card = document.getElementById(cardId);
-  card.innerHTML = `<span class="tag t-ok">Pubblicata</span><h2>Risposta inviata su Google Maps via ${activeReviews} ✓</h2><p class="why">La recensione per ${globalHotelName} è stata gestita con successo dall'IA.</p>`;
+  card.innerHTML = `<span class="tag t-ok">Pubblicata</span><h2>Risposta inviata su Google Maps via TrustYou AI ✓</h2><p class="why">La recensione per ${globalHotelName} è stata gestita con successo dall'IA.</p>`;
 }
 
 function editReview(cardId) {
@@ -609,7 +613,11 @@ function editReview(cardId) {
 }
 
 function syncAlloggiati() {
-  alert(`Flusso telematico generato e inviato correttamente ad Alloggiati Web della Polizia di Stato tramite ${activeCheckin} per ${globalHotelName}! Consensi GDPR e cancellazione documenti a 48h registrati con successo.`);
+  alert(`Flusso telematico generato e inviato correttamente ad Alloggiati Web della Polizia di Stato tramite Vikey per ${globalHotelName}! Consensi GDPR e cancellazione documenti a 48h registrati con successo.`);
+}
+
+function openAuditLog() {
+  alert(`--- REGISTRO AUDIT LOG GDPR (${globalHotelName}) ---\n\n• Token/Credenziali PMS: VERIFICATE\n• Accesso amministratore: REGISTRATO\n• Retention documenti d'identità: ATTIVA (Cancellazione automatica a 48h)\n• Schedine PS & Consensi Privacy: CRIPTATI AL 256-BIT`);
 }
 
 function triggerOrder() {
