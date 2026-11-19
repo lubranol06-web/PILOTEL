@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PILOTEL · Suite Operativa & Conformità GDPR</title>
+<title>PILOTEL · Suite Gestionale & PMS Professionale</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -14,7 +15,6 @@
   --mute: #8da4a6;
   --line: #223c3e;
   --brand: #2dd4bf;
-  --brand-rgb: 45, 212, 191;
   --brandsoft: #113c38;
   --amber: #fbbf24;
   --ambersoft: #382b0e;
@@ -51,7 +51,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 14.50px/1.5 "Bricolage Grotesque", system-ui, -apple-system, sans-serif;
+  font: 14.5px/1.5 "Bricolage Grotesque", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   display: flex;
   justify-content: center;
@@ -61,9 +61,9 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 460px;
+  max-width: 480px;
   height: 100vh;
-  max-height: 880px;
+  max-height: 900px;
   display: flex;
   flex-direction: column;
   background: var(--bg);
@@ -105,7 +105,7 @@ header {
   display: inline-block;
   box-shadow: 0 0 10px var(--ok);
 }
-.header-actions { display: flex; align-items: center; gap: 8px; }
+.header-actions { display: flex; align-items: center; gap: 6px; }
 .hotel-badge {
   font-size: 0.72rem;
   background: var(--brandsoft);
@@ -113,19 +113,23 @@ header {
   padding: 4px 10px;
   border-radius: 99px;
   font-weight: 700;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .icon-btn {
   background: none;
   border: 1px solid var(--line);
   color: var(--mute);
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 .icon-btn:hover { color: var(--brand); border-color: var(--brand); }
 
@@ -146,7 +150,6 @@ main {
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
 }
 h2 { font-size: 0.98rem; margin: 0 0 10px; font-weight: 700; color: var(--ink); display: flex; align-items: center; justify-content: space-between; }
 
@@ -161,19 +164,19 @@ h2 { font-size: 0.98rem; margin: 0 0 10px; font-weight: 700; color: var(--ink); 
 .row {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  padding: 4px 0;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
   border-bottom: 1px dashed rgba(255,255,255,0.08);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 [data-theme="light"] .row { border-bottom: 1px dashed rgba(0,0,0,0.08); }
 .row:last-child { border: 0; }
 .row b { font-variant-numeric: tabular-nums; color: var(--ink); }
-.time { text-align: right; font-size: 0.72rem; color: var(--mute); margin-top: 6px; font-weight: 600; }
 
 .tag {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   border-radius: 6px;
   padding: 2px 8px;
@@ -185,7 +188,7 @@ h2 { font-size: 0.98rem; margin: 0 0 10px; font-weight: 700; color: var(--ink); 
 .t-red { background: var(--redsoft); color: var(--red); }
 .t-ok { background: var(--brandsoft); color: var(--brand); }
 
-.why { color: var(--mute); font-size: 0.88rem; margin: 6px 0 12px; line-height: 1.4; }
+.why { color: var(--mute); font-size: 0.86rem; margin: 6px 0 12px; line-height: 1.4; }
 .btns { display: flex; gap: 8px; margin-top: 12px; }
 .btn {
   flex: 1;
@@ -199,23 +202,40 @@ h2 { font-size: 0.98rem; margin: 0 0 10px; font-weight: 700; color: var(--ink); 
   color: #091314;
   text-align: center;
   transition: all 0.15s ease;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
 }
 .btn:active { transform: scale(0.98); opacity: 0.9; }
 .btn.sec { background: transparent; color: var(--ink); border-color: var(--line); }
 .btn.sec:hover { border-color: var(--brand); color: var(--brand); }
 
-.review-box {
+/* Planning Griglia Stile PMS Professionale */
+.planning-grid {
+  display: grid;
+  grid-template-columns: 85px repeat(4, 1fr);
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 0.78rem;
+}
+.p-cell {
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
+  padding: 8px 4px;
+  text-align: center;
+  border-radius: 6px;
 }
-.review-header { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--mute); margin-bottom: 4px; }
-.stars { color: var(--amber); font-size: 0.85rem; }
+.p-cell.header { font-weight: 700; color: var(--mute); background: var(--panel-hover); }
+.p-cell.room { font-weight: 700; text-align: left; padding-left: 8px; display: flex; align-items: center; }
+.p-cell.booked { background: var(--brandsoft); color: var(--brand); font-weight: 600; border-color: var(--brand); }
+.p-cell.free { background: var(--bg); color: var(--mute); }
 
-/* Bottom Nav Bar */
+.qty-ctrl { display: flex; align-items: center; gap: 6px; }
+.qty-btn {
+  width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--ink); font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.qty-btn:hover { border-color: var(--brand); color: var(--brand); }
+
 nav.tabbar {
   position: absolute;
   bottom: 0;
@@ -227,70 +247,20 @@ nav.tabbar {
   padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
   gap: 2px;
   z-index: 100;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
 }
 nav.tabbar button {
-  flex: 1;
-  border: 0;
-  background: none;
-  color: var(--mute);
-  font: inherit;
-  font-size: 0.6rem;
-  font-weight: 700;
-  padding: 6px 1px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  transition: color 0.15s;
+  flex: 1; border: 0; background: none; color: var(--mute);
+  font: inherit; font-size: 0.6rem; font-weight: 700; padding: 6px 1px;
+  border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
 }
 nav.tabbar button svg { width: 16px; height: 16px; fill: currentColor; }
-nav.tabbar button[aria-selected="true"] {
-  color: var(--brand);
-  background: var(--brandsoft);
-}
+nav.tabbar button[aria-selected="true"] { color: var(--brand); background: var(--brandsoft); }
 
 textarea, input, select {
-  width: 100%;
-  font: inherit;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--bg);
-  color: var(--ink);
-  margin-top: 6px;
-  resize: none;
+  width: 100%; font: inherit; padding: 9px 12px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink); margin-top: 6px; font-size: 0.86rem;
 }
 textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
-
-.opt-btn {
-  display: block;
-  width: 100%;
-  text-align: left;
-  font: inherit;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  color: var(--ink);
-  border-radius: 10px;
-  padding: 10px 12px;
-  margin: 6px 0;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 0.15s;
-}
-.opt-btn.rec { border-color: var(--brand); background: var(--brandsoft); color: var(--brand); font-weight: 600; }
-.opt-btn small { display: block; color: var(--brand); font-weight: 700; margin-bottom: 2px; text-transform: uppercase; font-size: 0.7rem; }
-
-.badge-count {
-  background: var(--red);
-  color: #fff;
-  font-size: 0.6rem;
-  padding: 1px 4px;
-  border-radius: 99px;
-  margin-left: 2px;
-}
 
 .onboarding-step { display: none; }
 .onboarding-step.active { display: block; }
@@ -302,117 +272,65 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
   <header>
     <div class="brand-title"><span></span>PILOTEL</div>
     <div class="header-actions">
-      <div class="hotel-badge" id="header-hotel-badge">Setup Iniziale</div>
-      <button class="icon-btn" onclick="toggleTheme()" title="Cambia Tema">☀️</button>
+      <div class="hotel-badge" id="header-hotel-badge">Setup</div>
+      <button class="icon-btn" onclick="resetSetup()" title="Riconfigura Struttura">⚙️</button>
+      <button class="icon-btn" onclick="toggleTheme()" title="Tema">☀️</button>
     </div>
   </header>
 
   <main>
-    <!-- VIEW 1: ONBOARDING / LOGIN WIZARD -->
+    <!-- ONBOARDING -->
     <div id="view-onboarding" class="view active">
       <div class="card onboarding-step active" id="step-1">
-        <span class="tag t-ok">Passo 1 di 2 · Identità Struttura</span>
-        <h2>Benvenuto in Pilotel</h2>
-        <p class="why">Inserisci il nome del tuo Hotel e il numero WhatsApp per sincronizzare il briefing personalizzato.</p>
+        <span class="tag t-ok">PILOTEL PMS · Enterprise Core</span>
+        <h2>Configurazione Iniziale</h2>
+        <p class="why">Inserisci i parametri reali della struttura per avviare il gestionale autonomo ad alte prestazioni.</p>
         
-        <label style="font-size:0.8rem; font-weight:700; color:var(--mute);">Nome della Struttura</label>
-        <input type="text" id="input-hotel-name" value="Hotel Villa Rosa & Spa" placeholder="Es. Hotel Panorama">
+        <label style="font-size:0.8rem; font-weight:700; color:var(--mute);">Nome della Struttura *</label>
+        <input type="text" id="input-hotel-name" placeholder="Es. Hotel Villa Rosa & Spa">
         
-        <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">Numero WhatsApp per Briefing 07:30</label>
-        <input type="text" id="input-phone" value="+39 349 1234567" placeholder="+39 ...">
+        <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">WhatsApp Briefing 07:30 *</label>
+        <input type="text" id="input-phone" value="+39 349 1234567">
 
-        <button class="btn" style="width:100%; margin-top:16px;" onclick="nextOnboardingStep(2)">Avanti: Connessione Partner & Credenziali →</button>
-      </div>
+        <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">Numero Totale Camere *</label>
+        <input type="number" id="input-total-rooms" value="12" min="1" max="150">
 
-      <div class="card onboarding-step" id="step-2">
-        <span class="tag t-amb">Passo 2 di 2 · Integrazione & Credenziali PMS</span>
-        <h2>Configura Gestionale (PMS)</h2>
-        <p class="why">Usa il partner di default per una prova rapida oppure inserisci le tue credenziali reali per collegare il tuo hotel.</p>
-        
-        <label style="font-size:0.8rem; font-weight:700; color:var(--brand);">Gestionale / Channel Manager</label>
-        <select id="select-pms" onchange="togglePmsInputs()">
-          <option value="">Usa Partner Default (Octorate)</option>
-          <option value="Octorate">Octorate (Collega il tuo account)</option>
-          <option value="WuBook">WuBook (Collega il tuo account)</option>
-          <option value="Cloudbeds">Cloudbeds (Collega il tuo account)</option>
-          <option value="Mews">Mews (Collega il tuo account)</option>
-          <option value="Altro PMS">Altro PMS (API personalizzata)</option>
-        </select>
-
-        <!-- BOX CREDENZIALI PMS REALE (COMPARE SE SELEZIONATO) -->
-        <div id="pms-credentials-box" style="display:none; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:12px; margin-top:10px;">
-          <label style="font-size:0.75rem; font-weight:700; color:var(--mute);">ID Struttura / Hotel ID</label>
-          <input type="text" id="input-hotel-id" placeholder="Es. hotel_id_9921" style="margin-top:2px; margin-bottom:8px;">
-
-          <label style="font-size:0.75rem; font-weight:700; color:var(--mute);">Chiave API / Token di Accesso</label>
-          <input type="text" id="input-api-token" placeholder="Incolla qui il token segreto..." style="margin-top:2px;">
-        </div>
-
-        <label style="font-size:0.8rem; font-weight:700; color:var(--brand); display:block; margin-top:12px;">Check-in & Recensioni (Partner Associati)</label>
-        <div style="font-size:0.82rem; color:var(--mute); background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); margin-top:4px;">
-          ✓ Vikey (Smart Check-in) & TrustYou (Recensioni IA) attivi di default.
-        </div>
-
-        <div style="background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px; margin-top:12px; font-size:0.82rem; color:var(--mute);">
-          <b>Stato Sistema:</b> <span id="api-status-text" style="color:var(--ok);">✓ Modalità Demo Pronta (Partner Standard)</span>
-        </div>
-
-        <div style="margin: 12px 0 4px; font-size:0.82rem;">
-          <label><input type="checkbox" id="check-gdpr" checked> Accetto la conformità GDPR, l'audit log e la cancellazione automatica dei documenti dopo 48h.</label>
-        </div>
-
-        <div class="btns" style="margin-top:14px;">
-          <button class="btn sec" onclick="nextOnboardingStep(1)">← Indietro</button>
-          <button class="btn" onclick="completeOnboarding()">Avvia Dashboard Pilotel 🚀</button>
-        </div>
+        <button class="btn" style="width:100%; margin-top:16px;" onclick="initializeSystem()">Avvia Gestionale Pro 🚀</button>
       </div>
     </div>
 
-    <!-- VIEW 2: APP DASHBOARD OPERATIVA -->
+    <!-- DASHBOARD OPERATIVA -->
     <div id="view-dashboard" class="view">
-      <!-- TAB 1: BRIEFING & KPI -->
+      
+      <!-- TAB 1: BRIEFING & PLANNING PMS -->
       <div id="screen-brief" class="screen active">
         <div class="wa-box">
-          <p id="wa-greeting">☕ Buongiorno Direttore! Ecco il briefing di oggi.</p>
-          <div class="row"><span>Camere occupate</span><b id="kpi-rooms">21 su 24 (88%)</b></div>
-          <div class="row"><span>Vs Anno Scorso (YoY)</span><b>+8 punti</b></div>
-          <div class="row"><span>Tariffa Media (ADR)</span><b id="kpi-adr">€136</b></div>
-          <div class="row"><span>Incasso Camere</span><b id="kpi-rev">€2.856</b></div>
-          <div class="row"><span>Extra (Bar / Ristorante)</span><b>€1.090</b></div>
-          <div class="row"><span>Arrivi / Partenze</span><b>6 / 5 in casa</b></div>
-          <div class="row"><span>Meteo Localizzato</span><b>☀️ Sereno, 22°C</b></div>
-          <div class="time" id="wa-time-status">07:30 ✓✓ (Inviato via WhatsApp)</div>
+          <p id="wa-greeting">☕ Buongiorno Direttore!</p>
+          <div class="row"><span>Occupazione Camere</span><b id="kpi-rooms">--</b></div>
+          <div class="row"><span>Tariffa Media (ADR)</span><b id="kpi-adr">€135</b></div>
+          <div class="row"><span>Incasso Totale Previsto</span><b id="kpi-rev">--</b></div>
+          <div class="time">07:30 ✓✓ (Briefing WhatsApp Inviato)</div>
         </div>
 
         <div class="card">
-          <h2>Rilievi Operativi IA & Partner</h2>
-          <ul style="margin:0; padding-left:18px; font-size:0.9rem; color:var(--mute);">
-            <li id="pms-sync-note" style="margin-bottom:6px;">Sincronizzato in tempo reale con Octorate. 6 arrivi previsti tra le 15:00 e le 18:00.</li>
-            <li>Scorte kit cortesia sotto soglia sicurezza (Partner: HQ Food & Beverage).</li>
-          </ul>
-        </div>
-        <button class="btn sec" style="width:100%; margin-top:2px;" onclick="switchTab('pricing')">Esamina Consigli Dynamic Pricing (2) →</button>
-      </div>
-
-      <!-- TAB 2: PRICING & STRATEGIA -->
-      <div id="screen-pricing" class="screen">
-        <div class="card" id="tip-1">
-          <span class="tag t-amb">Dynamic Pricing 1-Click</span>
-          <h2>Weekend 17-18: alza le camere libere da €105 a €125</h2>
-          <p class="why">Analisi dati PMS: occupazione già all'83% con 10 giorni d'anticipo rispetto all'anno scorso. Previsione meteo: sole pieno.</p>
-          <div class="btns">
-            <button class="btn" onclick="resolveTip('tip-1', true)">Applica</button>
-            <button class="btn sec" onclick="resolveTip('tip-1', false)">Ignora</button>
+          <h2>Planning Camere in Tempo Reale</h2>
+          <p class="why">Griglia di stato delle camere sincronizzata con il database nativo.</p>
+          
+          <div class="planning-grid" id="planning-matrix">
+            <!-- Generato via JS -->
           </div>
         </div>
+      </div>
 
-        <div class="card" id="tip-2">
-          <span class="tag t-ok">Strategia Ricavi</span>
-          <h2>Promo "2 notti + cena" per martedì e mercoledì</h2>
-          <p class="why">Giorni storicamente deboli rilevati dal gestionale. Aggiungendo un benefit con il ristorante partner eviti di svalutare la tariffa base.</p>
+      <!-- TAB 2: PRICING & TARIFFE -->
+      <div id="screen-pricing" class="screen">
+        <div class="card" id="tip-1">
+          <span class="tag t-amb">Dynamic Pricing Intelligente</span>
+          <h2>Weekend: adegua tariffa camere libere da €105 a €125</h2>
+          <p class="why">Domanda elevata registrata sul planning nativo. Aggiorna il listino interno con un clic.</p>
           <div class="btns">
-            <button class="btn" onclick="resolveTip('tip-2', true)">Attiva Promo</button>
-            <button class="btn sec" onclick="resolveTip('tip-2', false)">Ignora</button>
+            <button class="btn" onclick="resolveTip('tip-1', true)">Applica al Listino</button>
+            <button class="btn sec" onclick="resolveTip('tip-1', false)">Ignora</button>
           </div>
         </div>
       </div>
@@ -420,86 +338,45 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
       <!-- TAB 3: RECENSIONI AI -->
       <div id="screen-reviews" class="screen">
         <div class="card" id="rev-card-1">
-          <span class="tag t-amb" id="review-partner-tag">TrustYou AI · Da Approvare</span>
-          <div class="review-box">
-            <div class="review-header"><span>Marco V. · 3 giorni fa</span><span class="stars">★★★☆☆</span></div>
-            <div style="font-size:0.88rem; font-style:italic;">"Hotel carino e pulito, ma la colazione ha poca scelta di prodotti freschi e il Wi-Fi in camera 204 prendeva poco."</div>
+          <span class="tag t-amb">Assistente IA · Reputazione</span>
+          <div class="row"><span>Marco V. (Camera 102)</span><span style="color:var(--amber)">★★★☆☆</span></div>
+          <p class="why" style="margin-top:6px; font-style:italic;">"Hotel molto pulito e personale cortese. Unica nota: Wi-Fi debole al secondo piano."</p>
+          <div style="font-size:0.82rem; background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); color:var(--mute); margin-top:8px;">
+            "Gentile Marco, la ringraziamo per il feedback! Abbiamo già provveduto a potenziare il segnale Wi-Fi. La aspettiamo presto."
           </div>
-          <div style="font-size:0.82rem; font-weight:700; color:var(--brand); margin-bottom:4px;">Bozza Risposta IA (Gestita da operatore partner):</div>
-          <div style="font-size:0.85rem; background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--line); color:var(--mute);">
-            " Gentile Marco, la ringraziamo per il feedback. Abbiamo già provveduto a potenziare il segnale Wi-Fi e rinnovare il buffet. La aspettiamo presto! "
-          </div>
-          <div class="btns">
-            <button class="btn" onclick="approveReview('rev-card-1')">Approva e Pubblica</button>
-            <button class="btn sec" onclick="editReview('rev-card-1')">Modifica</button>
-          </div>
+          <button class="btn" style="width:100%; margin-top:10px;" onclick="approveReview('rev-card-1')">Pubblica Risposta</button>
         </div>
       </div>
 
-      <!-- TAB 4: CHECK-IN & PRIVACY GDPR -->
+      <!-- TAB 4: CHECK-IN & GDPR -->
       <div id="screen-checkin" class="screen">
         <div class="card">
-          <span class="tag t-ok" id="checkin-partner-tag">Vikey Smart Check-in & Alloggiati Web</span>
-          <h2>Stato Arrivi di Oggi (6 Ospiti)</h2>
-          <p class="why">Link WhatsApp inviato. I dati vengono scansionati via OCR con consenso GDPR registrato.</p>
+          <span class="tag t-ok">Smart Check-in & Alloggiati Web</span>
+          <h2>Arrivi di Oggi</h2>
+          <p class="why">Scansione OCR con consenso GDPR tracciato e retention dati rigorosa a 48 ore.</p>
           <div class="row"><span>Rossi Mario (Camera 102)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
           <div class="row"><span>Bianchi Anna (Camera 105)</span><b style="color:var(--ok)">OCR + GDPR OK ✓</b></div>
-          <div class="row" style="margin-bottom:14px;"><span>Ferrari Luca (Camera 110)</span><b style="color:var(--amber)">In attesa compilazione</b></div>
-          <button class="btn" onclick="syncAlloggiati()">Invia Flusso ad Alloggiati Web</button>
-        </div>
-
-        <div class="card">
-          <span class="tag t-amb">Conformità GDPR & Privacy</span>
-          <h2>Retention Dati & Audit Log Attivo</h2>
-          <p class="why">I documenti d'identità temporanei vengono eliminati automaticamente dopo 48 ore in conformità alle norme di Pubblica Sicurezza.</p>
-          <div class="row"><span>Consenso Marketing Registrato</span><b>68% degli ospiti</b></div>
-          <div class="row" style="margin-bottom:10px;"><span>Registro Audit Log Accessi</span><b style="color:var(--ok)">Attivo e protetto</b></div>
-          <button class="btn sec" onclick="openAuditLog()">Visualizza Log Accessi</button>
+          <button class="btn" style="margin-top:10px;" onclick="syncAlloggiati()">Invia Schedine alla Polizia</button>
         </div>
       </div>
 
-      <!-- TAB 5: MAGAZZINO & STAFF -->
+      <!-- TAB 5: MAGAZZINO -->
       <div id="screen-ops" class="screen">
         <div class="card">
-          <span class="tag t-red">Scorta Critica (Partner: HQ Food & Beverage)</span>
-          <h2>Kit Cortesia e Cialde Caffè</h2>
-          <p class="why">Calcolato sull'occupazione sincronizzata nei prossimi 7 giorni.</p>
-          <div class="row"><span>Kit Cortesia Standard</span><b>Rimasti 18 pz (Min: 30)</b></div>
-          <div class="row" style="margin-bottom:14px;"><span>Cialde Caffè Camera</span><b>Rimasti 24 pz (Min: 50)</b></div>
-          <button class="btn" id="order-btn" onclick="triggerOrder()">Genera Ordine Automatico al Fornitore</button>
-        </div>
-
-        <div class="card">
-          <span class="tag t-ok">Controllo Fatture OCR</span>
-          <h2>Ultima fattura fornitore: Lavanderia</h2>
-          <p class="why">Analisi automatica XML/PDF: costo lavaggio lenzuola stabile (+0% rispetto al mese scorso).</p>
-        </div>
-
-        <div class="card">
-          <span class="tag t-amb">Manutenzione (SuperStaff)</span>
-          <h2>Climatizzatore camera 12 guasto</h2>
-          <p class="why">Segnalato da Luca (reception). Non raffredda.</p>
-          <button class="opt-btn rec" onclick="selectOpt(this)"><small>Azione IA Consigliata</small>Chiama il tecnico oggi e blocca la camera sul PMS</button>
-        </div>
-
-        <div id="dynamic-tasks"></div>
-
-        <div class="card">
-          <h2>Nuova Segnalazione / Task Vocale o Testo</h2>
-          <form onsubmit="handleTaskSubmit(event)">
-            <textarea id="task-input" rows="2" placeholder="Es. lampadina corridoio fulminata..." required></textarea>
-            <button class="btn" style="width:100%; margin-top:8px;">Invia a Pilotel</button>
-          </form>
+          <span class="tag t-ok">Inventario Magazzino Nativo</span>
+          <h2>Controllo Scorte</h2>
+          <div id="inventory-list"></div>
+          <button class="btn" style="margin-top:12px;" onclick="triggerOrder()">Genera Ordine Fornitore</button>
         </div>
       </div>
+
     </div>
   </main>
 
-  <!-- Navigation Bar -->
   <nav class="tabbar" id="app-tabbar" role="tablist" style="display:none;">
     <button role="tab" aria-selected="true" onclick="switchTab('brief')">
       <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      Briefing
+      Planning
     </button>
     <button role="tab" aria-selected="false" onclick="switchTab('pricing')">
       <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -507,7 +384,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
     </button>
     <button role="tab" aria-selected="false" onclick="switchTab('reviews')">
       <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-3 12H7v-2h10v2zm0-3H7V9h10v2zm0-3H7V6h10v2z"/></svg>
-      Recensioni <span class="badge-count">1</span>
+      Recensioni
     </button>
     <button role="tab" aria-selected="false" onclick="switchTab('checkin')">
       <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
@@ -521,130 +398,140 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
 </div>
 
 <script>
-let globalHotelName = "Hotel Villa Rosa & Spa";
-let activePms = "Octorate (Partner Default)";
-let activeCheckin = "Vikey (Partner Default)";
-let activeReviews = "TrustYou (Partner Default)";
+let config = { hotelName: "", totalRooms: 12 };
+let inventoryItems = [
+  { id: 1, name: "Kit Cortesia Bagno", qty: 24, min: 30 },
+  { id: 2, name: "Cialde Caffè Camera", qty: 42, min: 50 },
+  { id: 3, name: "Set Biancheria Matrimoniale", qty: 35, min: 25 }
+];
 
-function nextOnboardingStep(stepNum) {
-  document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step-' + stepNum).classList.add('active');
-  if(stepNum === 1) {
-    const nameVal = document.getElementById('input-hotel-name').value.trim();
-    if(nameVal) globalHotelName = nameVal;
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('pilotel_enterprise_config');
+  const savedInv = localStorage.getItem('pilotel_enterprise_inv');
+  if(savedInv) inventoryItems = JSON.parse(savedInv);
+  if(saved) {
+    config = JSON.parse(saved);
+    bootDashboard();
   }
-}
+});
 
-function togglePmsInputs() {
-  const pmsVal = document.getElementById('select-pms').value;
-  const box = document.getElementById('pms-credentials-box');
-  if(pmsVal !== "") {
-    box.style.display = "block";
-    document.getElementById('api-status-text').textContent = `⚡ Connessione ${pmsVal} (Inserisci i tuoi codici API)`;
-  } else {
-    box.style.display = "none";
-    document.getElementById('api-status-text').textContent = `✓ Modalità Demo Pronta (Partner Standard Octorate)`;
-  }
-}
-
-function completeOnboarding() {
+function initializeSystem() {
   const nameVal = document.getElementById('input-hotel-name').value.trim();
-  if(nameVal) globalHotelName = nameVal;
-  
-  let pmsSelect = document.getElementById('select-pms').value;
-  let hotelId = document.getElementById('input-hotel-id').value.trim();
-  let apiToken = document.getElementById('input-api-token').value.trim();
-
-  if(pmsSelect !== "") {
-    activePms = (hotelId || apiToken) ? `${pmsSelect} (Hotel ID: ${hotelId || 'N/D'})` : `${pmsSelect} (Connesso)`;
-  } else {
-    activePms = "Octorate (Partner Default)";
-  }
-  
-  const gdprChecked = document.getElementById('check-gdpr').checked;
-  if(!gdprChecked) {
-    alert('Per procedere è necessario accettare la conformità GDPR e la retention automatica dei dati.');
+  const roomsVal = parseInt(document.getElementById('input-total-rooms').value) || 12;
+  if(!nameVal) {
+    alert('Inserisci il nome della struttura.');
     return;
   }
-  
-  document.getElementById('header-hotel-badge').textContent = globalHotelName;
-  document.getElementById('wa-greeting').textContent = `☕ Buongiorno Direttore di ${globalHotelName}! Ecco il briefing sincronizzato via ${activePms}.`;
-  document.getElementById('pms-sync-note').textContent = `Sincronizzato in tempo reale tramite ${activePms}. 6 arrivi previsti tra le 15:00 e le 18:00.`;
+  config = { hotelName: nameVal, totalRooms: roomsVal };
+  localStorage.setItem('pilotel_enterprise_config', JSON.stringify(config));
+  bootDashboard();
+}
+
+function bootDashboard() {
+  document.getElementById('header-hotel-badge').textContent = config.hotelName;
+  document.getElementById('wa-greeting').textContent = `☕ Buongiorno Direttore di ${config.hotelName}!`;
+
+  const occupied = Math.round(config.totalRooms * 0.75);
+  const adr = 135;
+  const rev = occupied * adr;
+  document.getElementById('kpi-rooms').textContent = `${occupied} su ${config.totalRooms} (${Math.round((occupied/config.totalRooms)*100)}%)`;
+  document.getElementById('kpi-rev').textContent = `€${rev.toLocaleString('it-IT')}`;
+
+  renderPlanning();
+  renderInventory();
 
   document.getElementById('view-onboarding').classList.remove('active');
   document.getElementById('view-dashboard').classList.add('active');
   document.getElementById('app-tabbar').style.display = 'flex';
 }
 
+function renderPlanning() {
+  const grid = document.getElementById('planning-matrix');
+  grid.innerHTML = `
+    <div class="p-cell header">Camera</div>
+    <div class="p-cell header">Oggi</div>
+    <div class="p-cell header">Domani</div>
+    <div class="p-cell header">Sab</div>
+    <div class="p-cell header">Dom</div>
+  `;
+
+  for(let i = 1; i <= Math.min(config.totalRooms, 8); i++) {
+    const isBooked1 = i % 2 === 0;
+    const isBooked2 = i % 3 === 0;
+    grid.innerHTML += `
+      <div class="p-cell room">Km ${100 + i}</div>
+      <div class="p-cell ${isBooked1 ? 'booked' : 'free'}">${isBooked1 ? 'Rossi M.' : 'Libera'}</div>
+      <div class="p-cell ${isBooked2 ? 'booked' : 'free'}">${isBooked2 ? 'Bianchi A.' : 'Libera'}</div>
+      <div class="p-cell booked">Ferrari L.</div>
+      <div class="p-cell free">Libera</div>
+    `;
+  }
+}
+
+function renderInventory() {
+  const listEl = document.getElementById('inventory-list');
+  listEl.innerHTML = '';
+  inventoryItems.forEach(item => {
+    const isLow = item.qty <= item.min;
+    listEl.innerHTML += `
+      <div class="row">
+        <div>
+          <div style="font-weight:700;">${item.name}</div>
+          <div style="font-size:0.72rem; color:${isLow ? 'var(--red)' : 'var(--mute)'};">${isLow ? '⚠️ Sotto soglia minima' : '✓ Scorta OK'} (Min: ${item.min})</div>
+        </div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+          <b style="min-width:30px; text-align:center; color:${isLow ? 'var(--red)' : 'var(--ok)'};">${item.qty}</b>
+          <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function updateQty(id, delta) {
+  const item = inventoryItems.find(i => i.id === id);
+  if(item) {
+    item.qty = Math.max(0, item.qty + delta);
+    localStorage.setItem('pilotel_enterprise_inv', JSON.stringify(inventoryItems));
+    renderInventory();
+  }
+}
+
+function resetSetup() {
+  if(confirm('Vuoi resettare la configurazione e tornare alla schermata iniziale?')) {
+    localStorage.removeItem('pilotel_enterprise_config');
+    location.reload();
+  }
+}
+
 function switchTab(tabId) {
   document.querySelectorAll('#view-dashboard .screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + tabId).classList.add('active');
-  
-  const tabs = document.querySelectorAll('nav.tabbar button');
-  tabs.forEach((t) => {
-    const onclickAttr = t.getAttribute('onclick');
-    if(onclickAttr.includes(tabId)) {
-      t.setAttribute('aria-selected', 'true');
-    } else {
-      t.setAttribute('aria-selected', 'false');
-    }
+  document.querySelectorAll('nav.tabbar button').forEach(t => {
+    t.setAttribute('aria-selected', t.getAttribute('onclick').includes(tabId) ? 'true' : 'false');
   });
 }
 
 function toggleTheme() {
   const body = document.body;
-  const current = body.getAttribute('data-theme');
-  body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 }
 
-function resolveTip(cardId, accepted) {
-  const card = document.getElementById(cardId);
-  card.style.opacity = '0.6';
-  card.innerHTML = `<span class="tag t-ok">Aggiornato</span><h2>${accepted ? `Modifica inviata a ${activePms} ✓` : 'Consiglio ignorato'}</h2><p class="why">L'azione è stata registrata nel registro audit log protetto.</p>`;
+function resolveTip(id, ok) {
+  document.getElementById(id).innerHTML = `<span class="tag t-ok">Aggiornato</span><h2>Listino prezzi modificato con successo ✓</h2>`;
 }
 
-function approveReview(cardId) {
-  const card = document.getElementById(cardId);
-  card.innerHTML = `<span class="tag t-ok">Pubblicata</span><h2>Risposta inviata su Google Maps via TrustYou AI ✓</h2><p class="why">La recensione per ${globalHotelName} è stata gestita con successo dall'IA.</p>`;
-}
-
-function editReview(cardId) {
-  alert('Modalità modifica rapida aperta. Puoi personalizzare il testo della risposta generata dall\'IA.');
+function approveReview(id) {
+  document.getElementById(id).innerHTML = `<span class="tag t-ok">Pubblicata</span><h2>Risposta inviata al canale recensioni ✓</h2>`;
 }
 
 function syncAlloggiati() {
-  alert(`Flusso telematico generato e inviato correttamente ad Alloggiati Web della Polizia di Stato tramite Vikey per ${globalHotelName}! Consensi GDPR e cancellazione documenti a 48h registrati con successo.`);
-}
-
-function openAuditLog() {
-  alert(`--- REGISTRO AUDIT LOG GDPR (${globalHotelName}) ---\n\n• Token/Credenziali PMS: VERIFICATE\n• Accesso amministratore: REGISTRATO\n• Retention documenti d'identità: ATTIVA (Cancellazione automatica a 48h)\n• Schedine PS & Consensi Privacy: CRIPTATI AL 256-BIT`);
+  alert('Flusso telematico Alloggiati Web inviato con successo.');
 }
 
 function triggerOrder() {
-  const btn = document.getElementById('order-btn');
-  btn.textContent = 'Ordine Inviato a HQ Food & Beverage ✓';
-  btn.style.background = 'var(--ok)';
-  btn.style.color = '#091314';
-  btn.disabled = true;
-}
-
-function selectOpt(el) {
-  el.classList.add('rec');
-  el.textContent = '✓ Azione presa in carico e notificata via WhatsApp al manutentore';
-}
-
-function handleTaskSubmit(e) {
-  e.preventDefault();
-  const text = document.getElementById('task-input').value.trim();
-  if(!text) return;
-  
-  const container = document.getElementById('dynamic-tasks');
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `<span class="tag t-amb">Nuova Segnalazione</span><h2>${text}</h2><p class="why">Classificato automaticamente dall'IA per ${globalHotelName}.</p><button class="opt-btn rec" onclick="selectOpt(this)"><small>Azione IA</small>Assegna al personale e notifica WhatsApp</button>`;
-  
-  container.prepend(card);
-  document.getElementById('task-input').value = '';
+  alert('Ordine generato e pronto per l\'invio al fornitore.');
 }
 </script>
 </body>
