@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -250,7 +249,7 @@ nav.tabbar {
 }
 nav.tabbar button {
   flex: 1; border: 0; background: none; color: var(--mute);
-  font: inherit; font-size: 0.6rem; font-weight: 700; padding: 6px 1px;
+  font: inherit; font-size: 0.58rem; font-weight: 700; padding: 6px 1px;
   border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
 }
 nav.tabbar button svg { width: 16px; height: 16px; fill: currentColor; }
@@ -279,15 +278,15 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
   </header>
 
   <main>
-    <!-- ONBOARDING -->
-    <div id="view-onboarding" class="view active">
+    <!-- ONBOARDING / CONFIGURAZIONE -->
+    <div id="view-onboarding" class="view">
       <div class="card onboarding-step active" id="step-1">
         <span class="tag t-ok">PILOTEL PMS · Enterprise Core</span>
         <h2>Configurazione Iniziale</h2>
         <p class="why">Inserisci i parametri reali della struttura per avviare il gestionale autonomo ad alte prestazioni.</p>
         
         <label style="font-size:0.8rem; font-weight:700; color:var(--mute);">Nome della Struttura *</label>
-        <input type="text" id="input-hotel-name" placeholder="Es. Hotel Villa Rosa & Spa">
+        <input type="text" id="input-hotel-name" value="Hotel Villa Rosa & Spa" placeholder="Es. Hotel Villa Rosa & Spa">
         
         <label style="font-size:0.8rem; font-weight:700; color:var(--mute); display:block; margin-top:10px;">WhatsApp Briefing 07:30 *</label>
         <input type="text" id="input-phone" value="+39 349 1234567">
@@ -300,7 +299,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
     </div>
 
     <!-- DASHBOARD OPERATIVA -->
-    <div id="view-dashboard" class="view">
+    <div id="view-dashboard" class="view active">
       
       <!-- TAB 1: BRIEFING & PLANNING PMS -->
       <div id="screen-brief" class="screen active">
@@ -322,7 +321,42 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         </div>
       </div>
 
-      <!-- TAB 2: PRICING & TARIFFE -->
+      <!-- TAB 2: OPERATORI & PERMESSI -->
+      <div id="screen-operators" class="screen">
+        <div class="card">
+          <span class="tag t-ok">Gestione Personale & Ruoli</span>
+          <h2>Operatori Attivi</h2>
+          <p class="why">Configura gli accessi per reception, piani e amministrazione.</p>
+          
+          <div class="row">
+            <div>
+              <div style="font-weight:700;">Mario Rossi</div>
+              <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Capo Ricevimento (Full Access)</div>
+            </div>
+            <span class="tag t-ok">Attivo</span>
+          </div>
+
+          <div class="row">
+            <div>
+              <div style="font-weight:700;">Laura Bianchi</div>
+              <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Housekeeping / Piani</div>
+            </div>
+            <span class="tag t-ok">Attivo</span>
+          </div>
+
+          <div class="row">
+            <div>
+              <div style="font-weight:700;">Giuseppe Verdi</div>
+              <div style="font-size:0.72rem; color:var(--mute);">Ruolo: Amministrazione & Fatturazione</div>
+            </div>
+            <span class="tag t-ok">Attivo</span>
+          </div>
+
+          <button class="btn" style="margin-top:12px;" onclick="addOperator()">+ Aggiungi Nuovo Operatore</button>
+        </div>
+      </div>
+
+      <!-- TAB 3: PRICING & TARIFFE -->
       <div id="screen-pricing" class="screen">
         <div class="card" id="tip-1">
           <span class="tag t-amb">Dynamic Pricing Intelligente</span>
@@ -335,7 +369,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         </div>
       </div>
 
-      <!-- TAB 3: RECENSIONI AI -->
+      <!-- TAB 4: RECENSIONI AI -->
       <div id="screen-reviews" class="screen">
         <div class="card" id="rev-card-1">
           <span class="tag t-amb">Assistente IA · Reputazione</span>
@@ -348,7 +382,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         </div>
       </div>
 
-      <!-- TAB 4: CHECK-IN & GDPR -->
+      <!-- TAB 5: CHECK-IN & GDPR -->
       <div id="screen-checkin" class="screen">
         <div class="card">
           <span class="tag t-ok">Smart Check-in & Alloggiati Web</span>
@@ -360,7 +394,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
         </div>
       </div>
 
-      <!-- TAB 5: MAGAZZINO -->
+      <!-- TAB 6: MAGAZZINO -->
       <div id="screen-ops" class="screen">
         <div class="card">
           <span class="tag t-ok">Inventario Magazzino Nativo</span>
@@ -373,10 +407,14 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
     </div>
   </main>
 
-  <nav class="tabbar" id="app-tabbar" role="tablist" style="display:none;">
+  <nav class="tabbar" id="app-tabbar" role="tablist" style="display:flex;">
     <button role="tab" aria-selected="true" onclick="switchTab('brief')">
       <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
       Planning
+    </button>
+    <button role="tab" aria-selected="false" onclick="switchTab('operators')">
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Operatori
     </button>
     <button role="tab" aria-selected="false" onclick="switchTab('pricing')">
       <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -398,7 +436,7 @@ textarea:focus, input:focus, select:focus { outline: 2px solid var(--brand); }
 </div>
 
 <script>
-let config = { hotelName: "", totalRooms: 12 };
+let config = { hotelName: "Hotel Villa Rosa & Spa", totalRooms: 12 };
 let inventoryItems = [
   { id: 1, name: "Kit Cortesia Bagno", qty: 24, min: 30 },
   { id: 2, name: "Cialde Caffè Camera", qty: 42, min: 50 },
@@ -411,17 +449,14 @@ window.addEventListener('DOMContentLoaded', () => {
   if(savedInv) inventoryItems = JSON.parse(savedInv);
   if(saved) {
     config = JSON.parse(saved);
-    bootDashboard();
   }
+  bootDashboard();
 });
 
 function initializeSystem() {
-  const nameVal = document.getElementById('input-hotel-name').value.trim();
+  const nameVal = document.getElementById('input-hotel-name').value.trim() || "Hotel Villa Rosa & Spa";
   const roomsVal = parseInt(document.getElementById('input-total-rooms').value) || 12;
-  if(!nameVal) {
-    alert('Inserisci il nome della struttura.');
-    return;
-  }
+  
   config = { hotelName: nameVal, totalRooms: roomsVal };
   localStorage.setItem('pilotel_enterprise_config', JSON.stringify(config));
   bootDashboard();
@@ -499,10 +534,10 @@ function updateQty(id, delta) {
 }
 
 function resetSetup() {
-  if(confirm('Vuoi resettare la configurazione e tornare alla schermata iniziale?')) {
-    localStorage.removeItem('pilotel_enterprise_config');
-    location.reload();
-  }
+  document.getElementById('view-dashboard').classList.remove('active');
+  document.getElementById('view-onboarding').classList.add('active');
+  document.getElementById('app-tabbar').style.display = 'none';
+  document.getElementById('header-hotel-badge').textContent = "Setup";
 }
 
 function switchTab(tabId) {
@@ -532,6 +567,10 @@ function syncAlloggiati() {
 
 function triggerOrder() {
   alert('Ordine generato e pronto per l\'invio al fornitore.');
+}
+
+function addOperator() {
+  alert('Funzionalità di aggiunta operatore rapido aperta.');
 }
 </script>
 </body>
